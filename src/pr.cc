@@ -10,7 +10,6 @@
 #include "command_line.h"
 #include "graph.h"
 #include "pvector.h"
-#include "sim_api.h"
 /*
 GAP Benchmark Suite
 Kernel: PageRank (PR)
@@ -106,8 +105,6 @@ int main(int argc, char* argv[]) {
   auto VerifierBound = [&cli] (const Graph &g, const pvector<ScoreT> &scores) {
     return PRVerifier(g, scores, cli.tolerance());
   };
-  SimRoiStart();
   BenchmarkKernel(cli, g, PRBound, PrintTopScores, VerifierBound);
-  SimRoiEnd();
   return 0;
 }

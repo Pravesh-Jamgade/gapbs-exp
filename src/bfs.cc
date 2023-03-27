@@ -13,7 +13,6 @@
 #include "pvector.h"
 #include "sliding_queue.h"
 #include "timer.h"
-#include "sim_api.h"
 
 /*
 GAP Benchmark Suite
@@ -253,8 +252,6 @@ int main(int argc, char* argv[]) {
   auto VerifierBound = [&vsp] (const Graph &g, const pvector<NodeID> &parent) {
     return BFSVerifier(g, vsp.PickNext(), parent);
   };
-  SimRoiStart();
   BenchmarkKernel(cli, g, BFSBound, PrintBFSStats, VerifierBound);
-  SimRoiEnd();
   return 0;
 }

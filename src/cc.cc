@@ -15,7 +15,6 @@
 #include "pvector.h"
 #include "timer.h"
 
-#include "sim_api.h"
 /*
 GAP Benchmark Suite
 Kernel: Connected Components (CC)
@@ -222,8 +221,6 @@ int main(int argc, char* argv[]) {
   Builder b(cli);
   Graph g = b.MakeGraph();
   auto CCBound = [](const Graph& gr){ return Afforest(gr); };
-  SimRoiStart();
   BenchmarkKernel(cli, g, CCBound, PrintCompStats, CCVerifier);
-  SimRoiEnd();
   return 0;
 }

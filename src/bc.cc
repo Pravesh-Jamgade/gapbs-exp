@@ -16,7 +16,6 @@
 #include "timer.h"
 #include "util.h"
 
-#include "sim_api.h"
 /*
 GAP Benchmark Suite
 Kernel: Betweenness Centrality (BC)
@@ -242,8 +241,6 @@ int main(int argc, char* argv[]) {
                                      const pvector<ScoreT> &scores) {
     return BCVerifier(g, vsp, cli.num_iters(), scores);
   };
-  SimRoiStart();
   BenchmarkKernel(cli, g, BCBound, PrintTopScores, VerifierBound);
-  SimRoiEnd();
   return 0;
 }

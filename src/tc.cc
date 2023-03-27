@@ -17,7 +17,6 @@
 #include "graph.h"
 #include "pvector.h"
 
-#include "sim_api.h"
 /*
 GAP Benchmark Suite
 Kernel: Triangle Counting (TC)
@@ -138,8 +137,6 @@ int main(int argc, char* argv[]) {
     cout << "Input graph is directed but tc requires undirected" << endl;
     return -2;
   }
-  SimRoiStart();
   BenchmarkKernel(cli, g, Hybrid, PrintTriangleStats, TCVerifier);
-  SimRoiEnd();
   return 0;
 }
