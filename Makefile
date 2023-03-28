@@ -24,9 +24,8 @@ $(TARGET).o:
 	$(CXX) $(CXX_FLAGS) $(SNIPER_CFLAGS) -c src/$(TARGET).cc -o src/$(TARGET).o
 
 run_$(TARGET):
-	@echo "running snipper"
-	../../run-sniper -v -n 1 -c gainestown --roi --gdb -- ./$(TARGET) -g 5 -n 1 
-
+	@echo "running snipper $(TARGET)"
+	../../run-sniper -n 4 -c gainestown -- $(TARGET) -f /media/ubuntu/Data/saurabh/Simulator/gapbs/benchmark/roadU.sg
 include test/test.mk
 
 # Benchmark Automation
