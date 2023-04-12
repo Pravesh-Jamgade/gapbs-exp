@@ -177,12 +177,33 @@ int main(int argc, char* argv[]) {
   NodeID** index_arr_base = g.get_index_array();
   NodeID* edge_arr_base = *index_arr_base;
   SimRoiStart();
-    for(int i=0; i< g.num_nodes(); i++){
+  
+    int print_nodes = 50;
+    if(g.num_nodes() < 2*print_nodes)
+    {
+      std::cout << "need nodes more than " << 2*print_nodes << '\n';
+      std::cout << "nodes < print_nodes\n";
+      exit(0);
+    }
+
+    for(int i=0; i< print_nodes; i++){
+      f << (index_arr_base+i) << '\n';
+    }
+    f << "-----------------------------\n";
+    for(int i=g.num_nodes()-print_nodes; i < g.num_nodes(); i++){
       f << (index_arr_base+i) << '\n';
     }
 
-    cout << '\n';
     for(int i=0; i< g.num_nodes(); i++){
+      NodeID* off1 = g.get_index_at(i);
+      NodeID* off2 = g.get_index_at(i+1);
+      int len = off2 - off1;
+      for(int j=0; j< len; j++){
+        e << (off1+j) << '\n';
+      }
+    }
+    e << "-----------------------------\n";
+    for(int i=g.num_nodes()-print_nodes; i< g.num_nodes(); i++){
       NodeID* off1 = g.get_index_at(i);
       NodeID* off2 = g.get_index_at(i+1);
       int len = off2 - off1;
