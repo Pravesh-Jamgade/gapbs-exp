@@ -1,0 +1,1099 @@
+make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+Makefile:36: warning: overriding recipe for target 'clean'
+../shared/Makefile.shared:35: warning: ignoring old recipe for target 'clean'
+make: *** No rule to make target 'all'.  Stop.
+
+# GNU Make 4.2.1
+# Built for x86_64-pc-linux-gnu
+# Copyright (C) 1988-2016 Free Software Foundation, Inc.
+# License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+# This is free software: you are free to change and redistribute it.
+# There is NO WARRANTY, to the extent permitted by law.
+
+# Make data base, printed on Wed Apr 12 13:38:42 2023
+
+# Variables
+
+# 'override' directive
+GNUMAKEFLAGS := 
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# automatic
+?F = $(notdir $?)
+# environment
+DESKTOP_SESSION = cinnamon
+# default
+.SHELLFLAGS := -c
+# makefile (from 'benchmark/bench.mk', line 13)
+ALL_GRAPHS = $(addsuffix .sg, $(GRAPHS)) $(addsuffix .wsg, $(GRAPHS)) $(addsuffix U.sg, $(GRAPHS))
+# environment
+XDG_SESSION_CLASS = user
+# makefile (from 'benchmark/bench.mk', line 99)
+URAND_ARGS = -u27 -k16
+# environment
+XDG_SESSION_TYPE = x11
+# makefile (from '../../config/buildconf.makefile', line 6)
+DR_HOME := 
+# makefile (from 'Makefile', line 1)
+TARGET = tc
+# environment
+GTK3_MODULES = xapp-gtk3-module
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# automatic
+@D = $(patsubst %/,%,$(dir $@))
+# environment
+XAUTHORITY = /run/user/1000/gdm/Xauthority
+# environment
+GDMSESSION = cinnamon
+# environment
+XMODIFIERS = @im=ibus
+# makefile
+CURDIR := /mnt/B/sniper/test/gapbs
+# makefile
+SHELL = /bin/sh
+# environment
+VSCODE_NLS_CONFIG = {"locale":"en-gb","availableLanguages":{},"_languagePackSupport":true}
+# environment
+_ = /usr/share/code/code
+# makefile (from '../../config/buildconf.makefile', line 20)
+SNIPER_LD := g++
+# makefile (from '../shared/Makefile.shared', line 12)
+CFLAGS = $(SNIPER_CFLAGS)
+# makefile (from '../../config/buildconf.makefile', line 8)
+GRAPHITE_CFLAGS := -mno-sse4 -mno-sse4.1 -mno-sse4.2 -mno-sse4a -mno-avx -mno-avx2 -I/mnt/B/sniper/include 
+# environment
+XDG_CONFIG_DIRS = /etc/xdg/xdg-cinnamon:/etc/xdg
+# environment
+GTK_OVERLAY_SCROLLING = 1
+# makefile (from 'benchmark/bench.mk', line 1)
+MAKEFILE_LIST :=  Makefile ../shared/Makefile.shared ../../config/buildconf.makefile test/test.mk benchmark/bench.mk
+# automatic
+@F = $(notdir $@)
+# environment
+GIO_LAUNCHED_DESKTOP_FILE = /usr/share/applications/code.desktop
+# environment
+USERNAME = pravesh
+# environment
+XDG_DATA_DIRS = /usr/share/gnome:/usr/share/cinnamon:/home/pravesh/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share
+# makefile (from '../../config/buildconf.makefile', line 10)
+GRAPHITE_CXXFLAGS := -mno-sse4 -mno-sse4.1 -mno-sse4.2 -mno-sse4a -mno-avx -mno-avx2 -I/mnt/B/sniper/include 
+# environment
+DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
+# makefile (from '../../config/buildconf.makefile', line 21)
+SNIPER_LDFLAGS := -static -L/mnt/B/sniper/lib -pthread 
+# makefile (from '../../config/buildconf.makefile', line 3)
+SELF_DIR := ../../config/
+# environment
+CLUTTER_IM_MODULE = ibus
+# environment
+LESSOPEN = | /usr/bin/lesspipe %s
+# environment
+VSCODE_CWD = /home/pravesh
+# makefile (from '../../config/buildconf.makefile', line 15)
+PIN_HOME := /mnt/B/sniper/pin_kit
+# default
+MAKE_HOST := x86_64-pc-linux-gnu
+# environment
+PATH = /home/pravesh/.local/bin:/mnt/A/julia-1.8.5/bin:/home/pravesh/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+# environment
+GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
+# environment
+SESSION_MANAGER = local/voyager3:@/tmp/.ICE-unix/4748,unix/voyager3:/tmp/.ICE-unix/4748
+# environment
+XDG_RUNTIME_DIR = /run/user/1000
+# makefile (from '../../config/buildconf.makefile', line 22)
+SNIPER_LD_LIBRARY_PATH := 
+# makefile (from '../../config/buildconf.makefile', line 13)
+GRAPHITE_LD_LIBRARY_PATH := 
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# makefile (from '../shared/Makefile.shared', line 11)
+LDFLAGS = $(SNIPER_LDFLAGS)
+# makefile (from 'benchmark/bench.mk', line 9)
+GRAPH_DIR = benchmark/graphs
+# default
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
+# makefile (from 'benchmark/bench.mk', line 17)
+ALL_GRAPHS_WITH_PATHS = $(addprefix $(GRAPH_DIR)/, $(ALL_GRAPHS))
+# makefile (from 'benchmark/bench.mk', line 68)
+WEB_URL = https://sparse.tamu.edu/MM/LAW/sk-2005.tar.gz
+# makefile (from 'benchmark/bench.mk', line 12)
+GRAPHS = twitter web road kron urand
+# environment
+XDG_SESSION_DESKTOP = cinnamon
+# environment
+SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
+# environment
+GIO_LAUNCHED_DESKTOP_FILE_PID = 24281
+# automatic
+%F = $(notdir $%)
+# environment
+DISPLAY = :1
+# makefile (from 'test/test.mk', line 23)
+PASS = \033[92mPASS\033[0m
+# environment
+GTK_IM_MODULE = ibus
+# makefile (from '../../config/buildconf.makefile', line 18)
+SNIPER_CXX := g++
+# environment
+PWD = /mnt/B/sniper/test/gapbs
+# environment
+QT_QPA_PLATFORMTHEME = qt5ct
+# default
+.LOADED := 
+# environment
+XDG_SEAT = seat0
+# environment
+SSH_AGENT_PID = 4826
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = X-Cinnamon
+# environment
+GTK_MODULES = gail:atk-bridge
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+# environment
+HOME = /home/pravesh
+# makefile (from 'benchmark/bench.mk', line 121)
+BENCH_ORDER = bfs-twitter pr-twitter cc-twitter bc-twitter bfs-web pr-web cc-web bc-web bfs-road pr-road cc-road bc-road bfs-kron pr-kron cc-kron bc-kron tc-kron bfs-urand pr-urand cc-urand bc-urand tc-urand sssp-twitter sssp-web sssp-road sssp-kron sssp-urand tc-twitter tc-web tc-road
+# environment
+LESSCLOSE = /usr/bin/lesspipe %s %s
+# environment
+VSCODE_CODE_CACHE_PATH = /home/pravesh/.config/Code/CachedData/441438abd1ac652551dbe4d408dfcec8a499b8bf
+# environment
+LOGNAME = pravesh
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+# makefile (from 'benchmark/bench.mk', line 10)
+RAW_GRAPH_DIR = benchmark/graphs/raw
+# makefile (from '../../config/buildconf.makefile', line 11)
+GRAPHITE_LD := g++
+# makefile (from '../../config/buildconf.makefile', line 4)
+SNIPER_ROOT = $(shell readlink -f $(SELF_DIR)/..)
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# default
+MAKE_VERSION := 4.2.1
+# environment
+GNOME_DESKTOP_SESSION_ID = this-is-deprecated
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# environment
+XDG_VTNR = 2
+# makefile (from 'benchmark/bench.mk', line 51)
+ROAD_URL = http://www.dis.uniroma1.it/challenge9/data/USA-road-d/USA-road-d.USA.gr.gz
+# environment
+MAKELEVEL := 0
+# makefile (from 'benchmark/bench.mk', line 115)
+OUTPUT_DIR = benchmark/out
+# default
+MAKE = $(MAKE_COMMAND)
+# makefile (from '../../config/buildconf.makefile', line 14)
+GRAPHITE_UPCCFLAGS := -I/mnt/B/sniper/include  -link-with='g++ -static -L/mnt/B/sniper/lib -pthread'
+# default
+MAKECMDGOALS := all
+# environment
+QT_IM_MODULE = ibus
+# environment
+SHLVL = 0
+# makefile (from '../shared/Makefile.shared', line 1)
+CLEAN = $(findstring clean,$(MAKECMDGOALS))
+# makefile (from '../shared/Makefile.shared', line 10)
+CC = $(SNIPER_CC)
+# makefile (from 'Makefile', line 17)
+CXX_FLAGS = -std=c++17 -Wall $(PAR_FLAG)
+# makefile (from '../../config/buildconf.makefile', line 7)
+GRAPHITE_CC := cc
+# environment
+XDG_SESSION_ID = 2
+# environment
+USER = pravesh
+# makefile (from '../../config/buildconf.makefile', line 12)
+GRAPHITE_LDFLAGS := -static -L/mnt/B/sniper/lib -pthread 
+# makefile
+.DEFAULT_GOAL := run
+# makefile (from 'benchmark/bench.mk', line 88)
+KRON_ARGS = -g27 -k16
+# environment
+XDG_CURRENT_DESKTOP = X-Cinnamon
+# makefile (from 'benchmark/bench.mk', line 130)
+OUTPUT_FILES = $(addsuffix .out, $(addprefix $(OUTPUT_DIR)/, $(BENCH_ORDER)))
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# makefile (from 'benchmark/bench.mk', line 30)
+TWITTER_URL = https://github.com/ANLAB-KAIST/traces/releases/download/twitter_rv.net/twitter_rv.net.$*.gz
+# makefile (from 'Makefile', line 37)
+CLEAN_EXTRA = viz
+# default
+MAKE_COMMAND := make
+# makefile (from '../../config/buildconf.makefile', line 17)
+SNIPER_CFLAGS := -mno-sse4 -mno-sse4.1 -mno-sse4.2 -mno-sse4a -mno-avx -mno-avx2 -I/mnt/B/sniper/include 
+# environment
+PIN_ROOT = /mnt/A/memdb/pinkit
+# default
+.VARIABLES := 
+# makefile (from 'Makefile', line 5)
+PAR_FLAG = -fopenmp
+# automatic
+*F = $(notdir $*)
+# environment
+LANGUAGE = en_IN:en
+# environment
+VSCODE_IPC_HOOK = /run/user/1000/vscode-7248d1da-1.75.1-main.sock
+# makefile (from 'benchmark/bench.mk', line 138)
+SSSP_ARGS = -n64
+# makefile (from 'test/test.mk', line 24)
+FAIL = \033[91mFAIL\033[0m
+# makefile
+MAKEFLAGS = pqrR
+# environment
+MFLAGS = -pqrR
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# makefile (from '../../config/buildconf.makefile', line 19)
+SNIPER_CXXFLAGS := -mno-sse4 -mno-sse4.1 -mno-sse4.2 -mno-sse4a -mno-avx -mno-avx2 -I/mnt/B/sniper/include 
+# environment
+GDK_BACKEND = x11
+# automatic
++F = $(notdir $+)
+# environment
+CINNAMON_VERSION = 5.0.7
+# environment
+QT_ACCESSIBILITY = 1
+# 'override' directive
+.SHELLSTATUS := 0
+# default
+MAKEFILES := 
+# automatic
+<F = $(notdir $<)
+# makefile (from '../../config/buildconf.makefile', line 9)
+GRAPHITE_CXX := g++
+# makefile (from 'test/test.mk', line 39)
+GENERATE_KERNEL = bfs
+# environment
+LC_ALL = C
+# environment
+QT4_IM_MODULE = ibus
+# environment
+GJS_DEBUG_TOPICS = JS ERROR;JS LOG
+# automatic
+^F = $(notdir $^)
+# default
+ 
+SUFFIXES := 
+# makefile (from 'test/test.mk', line 74)
+TEST_GRAPH = g10
+# environment
+CHROME_DESKTOP = code-url-handler.desktop
+# environment
+WINDOWPATH = 2
+# default
+.INCLUDE_DIRS = /usr/include /usr/local/include /usr/include
+# environment
+GJS_DEBUG_OUTPUT = stderr
+# makefile (from '../../config/buildconf.makefile', line 16)
+SNIPER_CC := cc
+# default
+.RECIPEPREFIX := 
+# makefile (from '../../config/buildconf.makefile', line 23)
+SNIPER_UPCCFLAGS := -I/mnt/B/sniper/include  -link-with='g++ -static -L/mnt/B/sniper/lib -pthread'
+# environment
+LANG = C
+# environment
+VSCODE_PID = 24281
+# variable set hash-table stats:
+# Load=144/1024=14%, Rehash=0, Collisions=20/335=6%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# benchmark/graphs: could not be stat'd.
+# . (device 2066, inode 18751405): 30 files, no impossibilities.
+# test/out: could not be stat'd.
+
+# 30 files, no impossibilities in 3 directories.
+
+# Implicit Rules
+
+test/out/generate-%.out: test/out bfs
+#  recipe to execute (from 'test/test.mk', line 45):
+	./$(GENERATE_KERNEL) -$* -n0 > $@
+
+test-generate-%: test/out/generate-%.out
+#  recipe to execute (from 'test/test.mk', line 49):
+	@if grep -q "`cat test/reference/graph-$*.out`" $<; \
+		then echo " $(PASS) Generates $*"; \
+		else echo " $(FAIL) Generates $*"; \
+	fi
+
+test/out/load-%.out: test/out bfs
+#  recipe to execute (from 'test/test.mk', line 59):
+	./$(GENERATE_KERNEL) -f test/graphs/$* -n0 > $@
+
+test-load-%: test/out/load-%.out
+#  recipe to execute (from 'test/test.mk', line 63):
+	@if grep -q "`cat test/reference/graph-$*.out`" $<; \
+		then echo " $(PASS) Load $*"; \
+		else echo " $(FAIL) Load $*"; \
+	fi
+
+test/out/verify-%-g10.out: test/out %
+#  recipe to execute (from 'test/test.mk', line 77):
+	./$* -$(TEST_GRAPH) -vn1 > $@
+
+test-verify-%-g10: test/out/verify-%-g10.out
+#  recipe to execute (from 'test/test.mk', line 81):
+	@if grep -q "Verification:           PASS" $<; \
+		then echo " $(PASS) Verify $*"; \
+		else echo " $(FAIL) Verify $*"; \
+	fi
+
+benchmark/graphs/raw/twitter_rv.net.%.gz:
+#  recipe to execute (from 'benchmark/bench.mk', line 32):
+	wget -P $(RAW_GRAPH_DIR) $(TWITTER_URL)
+
+benchmark/out/bfs-%.out: benchmark/graphs/%.sg bfs
+#  recipe to execute (from 'benchmark/bench.mk', line 136):
+	./bfs -f $< -n64 > $@
+
+benchmark/out/pr-%.out: benchmark/graphs/%.sg pr
+#  recipe to execute (from 'benchmark/bench.mk', line 155):
+	./pr -f $< -i1000 -t1e-4 -n16 > $@
+
+benchmark/out/cc-%.out: benchmark/graphs/%.sg cc
+#  recipe to execute (from 'benchmark/bench.mk', line 158):
+	./cc -f $< -n16 > $@
+
+benchmark/out/bc-%.out: benchmark/graphs/%.sg bc
+#  recipe to execute (from 'benchmark/bench.mk', line 161):
+	./bc -f $< -i4 -n16 > $@
+
+benchmark/out/tc-%.out: benchmark/graphs/%U.sg tc
+#  recipe to execute (from 'benchmark/bench.mk', line 164):
+	./tc -f $< -n3 > $@
+
+# 12 implicit rules, 0 (0.0%) terminal.
+
+# Files
+
+tc: tc.o
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 21):
+	$(CXX) $(CXX_FLAGS) src/$(TARGET).o -lm $(SNIPER_LDFLAGS) -o $(TARGET)
+
+tc.o:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 24):
+	$(CXX) $(CXX_FLAGS) $(SNIPER_CFLAGS) -c src/$(TARGET).cc -o src/$(TARGET).o -g
+
+# Not a target:
+sssp:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+benchmark/out/cc-road.out:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+benchmark/graphs/raw/twitter_rv.net.02.gz:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+benchmark/out/tc-kron.out:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+benchmark/graphs/twitter.wsg: benchmark/graphs/raw/twitter.el converter
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'benchmark/bench.mk', line 46):
+	./converter -f $< -wb $@
+
+benchmark/graphs/raw/twitter_rv.net: benchmark/graphs/raw/twitter_rv.net.00.gz benchmark/graphs/raw/twitter_rv.net.01.gz benchmark/graphs/raw/twitter_rv.net.02.gz benchmark/graphs/raw/twitter_rv.net.03.gz
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'benchmark/bench.mk', line 35):
+	gunzip -c $^ > $@
+	touch $@
+
+test-load: test-load-4.gr test-load-4.el test-load-4.wel test-load-4.graph test-load-4w.graph test-load-4.mtx test-load-4w.mtx
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+run_tc:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 27):
+	@echo "running snipper"
+	../../run-sniper -v -n 1 -c gainestown --roi -- ./$(TARGET) -g 2 -n 1 
+
+benchmark/out/sssp-urand.out: benchmark/graphs/urand.wsg sssp
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'benchmark/bench.mk', line 152):
+	./sssp -f $< $(SSSP_ARGS) -d2 > $@
+
+# Not a target:
+benchmark/out/bc-twitter.out:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+all:
+#  Command line target.
+#  Implicit rule search has been done.
+#  File is an intermediate prerequisite.
+#  File does not exist.
+#  File has not been updated.
+
+.PHONY: bench-graphs bench-run
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+benchmark/out/sssp-road.out: benchmark/graphs/road.wsg sssp
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'benchmark/bench.mk', line 146):
+	./sssp -f $< $(SSSP_ARGS) -d50000 > $@
+
+# Not a target:
+test-generate-g10:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+.SECONDARY:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+test-load-4.el:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+benchmark/out/pr-web.out:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+benchmark/graphs/raw/twitter_rv.net.03.gz:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+test-load-4.graph:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+test-load-4.wel:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+benchmark/bench.mk:
+#  Implicit rule search has been done.
+#  Last modified 2022-02-10 14:52:15.224318135
+#  File has been updated.
+#  Successfully updated.
+
+benchmark/graphs/kron.wsg: converter
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'benchmark/bench.mk', line 93):
+	./converter $(KRON_ARGS) -wb $@
+
+# Not a target:
+benchmark/out/bfs-twitter.out:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+benchmark/out/pr-urand.out:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+ 
+benchmark/graphs/twitterU.sg: benchmark/graphs/raw/twitter.el converter
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'benchmark/bench.mk', line 49):
+	./converter -sf $< -b $@
+
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+#  Last modified 2023-04-10 16:18:59.526786872
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+benchmark/out/cc-twitter.out:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+benchmark/out/bfs-kron.out:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+benchmark/graphs/raw/sk-2005/sk-2005.mtx: benchmark/graphs/raw/sk-2005.tar.gz
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'benchmark/bench.mk', line 73):
+	tar -zxvf $< -C $(RAW_GRAPH_DIR)
+	touch $@
+
+benchmark/graphs/raw:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'benchmark/bench.mk', line 20):
+	mkdir -p $@
+
+test: test-score
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'test/test.mk', line 14):
+	@if $(MAKE) test-score | grep FAIL > /dev/null; \
+		then exit 1; \
+	fi
+
+# Not a target:
+benchmark/out/bc-kron.out:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+test-generate: test-generate-g10 test-generate-u10
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+benchmark/out/tc-web.out:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+benchmark/graphs/kronU.sg: benchmark/graphs/kron.sg converter
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'benchmark/bench.mk', line 96):
+	rm -f $@
+	ln -s kron.sg $@
+
+# Not a target:
+benchmark/out/pr-road.out:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+benchmark/graphs/urand.sg: converter
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'benchmark/bench.mk', line 101):
+	./converter $(URAND_ARGS) -b $@
+
+benchmark/graphs/raw/USA-road-d.USA.gr.gz:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'benchmark/bench.mk', line 53):
+	wget -P $(RAW_GRAPH_DIR) $(ROAD_URL)
+
+test-all: test-build test-generate test-load test-verify
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+benchmark/out/tc-urand.out:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+benchmark/graphs/road.sg: benchmark/graphs/raw/USA-road-d.USA.gr converter
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'benchmark/bench.mk', line 60):
+	./converter -f $< -b $@
+
+benchmark/out/sssp-twitter.out: benchmark/graphs/twitter.wsg sssp
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'benchmark/bench.mk', line 140):
+	./sssp -f $< $(SSSP_ARGS) -d2 > $@
+
+# Not a target:
+test-load-4.mtx:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+benchmark/graphs/web.sg: benchmark/graphs/raw/sk-2005/sk-2005.mtx converter
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'benchmark/bench.mk', line 77):
+	./converter -f $< -b $@
+
+benchmark/graphs/urandU.sg: benchmark/graphs/urand.sg converter
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'benchmark/bench.mk', line 107):
+	rm -f $@
+	ln -s urand.sg $@
+
+bench-run: benchmark/out benchmark/out/bfs-twitter.out benchmark/out/pr-twitter.out benchmark/out/cc-twitter.out benchmark/out/bc-twitter.out benchmark/out/bfs-web.out benchmark/out/pr-web.out benchmark/out/cc-web.out benchmark/out/bc-web.out benchmark/out/bfs-road.out benchmark/out/pr-road.out benchmark/out/cc-road.out benchmark/out/bc-road.out benchmark/out/bfs-kron.out benchmark/out/pr-kron.out benchmark/out/cc-kron.out benchmark/out/bc-kron.out benchmark/out/tc-kron.out benchmark/out/bfs-urand.out benchmark/out/pr-urand.out benchmark/out/cc-urand.out benchmark/out/bc-urand.out benchmark/out/tc-urand.out benchmark/out/sssp-twitter.out benchmark/out/sssp-web.out benchmark/out/sssp-road.out benchmark/out/sssp-kron.out benchmark/out/sssp-urand.out benchmark/out/tc-twitter.out benchmark/out/tc-web.out benchmark/out/tc-road.out
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  File does not exist.
+#  File has not been updated.
+
+# Not a target:
+benchmark/out/tc-road.out:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+benchmark/out/cc-kron.out:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+benchmark/graphs/raw/sk-2005.tar.gz:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'benchmark/bench.mk', line 70):
+	wget -P $(RAW_GRAPH_DIR) $(WEB_URL)
+
+benchmark/graphs/roadU.sg: benchmark/graphs/raw/USA-road-d.USA.gr converter
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'benchmark/bench.mk', line 66):
+	./converter -sf $< -b $@
+
+test-score: test-all
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'test/test.mk', line 20):
+	@$(MAKE) test-all | cut -d\  -f 2 | grep 'PASS\|FAIL' | sort | uniq -c
+
+benchmark/graphs/webU.sg: benchmark/graphs/raw/sk-2005/sk-2005.mtx converter
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'benchmark/bench.mk', line 83):
+	./converter -sf $< -b $@
+
+# Not a target:
+test/test.mk:
+#  Implicit rule search has been done.
+#  Last modified 2022-01-25 16:09:02.353649847
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+test/out:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'test/test.mk', line 27):
+	mkdir -p test/out
+
+# Not a target:
+benchmark/out/pr-twitter.out:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+benchmark/graphs/raw/USA-road-d.USA.gr: benchmark/graphs/raw/USA-road-d.USA.gr.gz
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'benchmark/bench.mk', line 56):
+	cd $(RAW_GRAPH_DIR)
+	gunzip < $< > $@
+
+# Not a target:
+benchmark/out/bfs-web.out:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+benchmark/out/bc-web.out:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+benchmark/out/sssp-kron.out: benchmark/graphs/kron.wsg sssp
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'benchmark/bench.mk', line 149):
+	./sssp -f $< $(SSSP_ARGS) -d2 > $@
+
+run: tc run_tc
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+ 
+#  File has not been updated.
+#  recipe to execute (from '../shared/Makefile.shared', line 17):
+	@echo
+	@echo
+	@echo "Optional: Run '../../tools/cpistack.py' in this directory to generate cpi-stack output for this run"
+	@echo "Optional: Run '../../tools/mcpat.py' in this directory to generate power output for this run"
+	@echo "Optional: Run '../../tools/dumpstats.py' in this directory to view detailed statistics for this run"
+	@echo "Optional: Run '../../tools/gen_topology.py' in this directory to view the system topology for this run"
+	@echo
+
+benchmark/out:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'benchmark/bench.mk', line 118):
+	mkdir -p $@
+
+clean:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 36):
+	rm -rf $(SUITE) test/out/* *.db $(TARGET) *.csv sim.* *.log *.out *.png *.o topo.* power.* $(CLEAN_EXA)
+
+benchmark/graphs/urand.wsg: converter
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'benchmark/bench.mk', line 104):
+	./converter $(URAND_ARGS) -wb $@
+
+benchmark/graphs/twitter.sg: benchmark/graphs/raw/twitter.el converter
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'benchmark/bench.mk', line 43):
+	./converter -f $< -b $@
+
+# Not a target:
+test-load-4w.graph:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+benchmark/out/bc-urand.out:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+test-build: all
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'test/test.mk', line 31):
+	@echo " $(PASS) Build"
+
+benchmark/graphs/road.wsg: benchmark/graphs/raw/USA-road-d.USA.gr converter
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'benchmark/bench.mk', line 63):
+	./converter -f $< -wb $@
+
+test-verify:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+benchmark/out/tc-twitter.out:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+../../config/buildconf.makefile:
+#  Implicit rule search has not been done.
+#  Last modified 2023-04-10 14:36:34.946882051
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from '../shared/Makefile.shared', line 26):
+	@echo
+	@echo
+	@echo 'Error: A compiled version of Sniper is required to run the test applications'
+	@echo
+	@false
+
+benchmark/graphs/web.wsg: benchmark/graphs/raw/sk-2005/sk-2005.mtx converter
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'benchmark/bench.mk', line 80):
+	./converter -f $< -wb $@
+
+# Not a target:
+benchmark/out/bc-road.out:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+benchmark/out/cc-web.out:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+converter:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'benchmark/bench.mk', line 26):
+	$(CXX) $(CXX_FLAGS) -o converter src/converter.cc
+
+# Not a target:
+benchmark/out/pr-kron.out:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+benchmark/out/bfs-urand.out:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+benchmark/graphs/raw/twitter_rv.net.00.gz:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+test-load-4.gr:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+benchmark/out/cc-urand.out:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+benchmark/graphs/kron.sg: converter
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'benchmark/bench.mk', line 90):
+	./converter $(KRON_ARGS) -b $@
+
+# Not a target:
+benchmark/graphs/raw/twitter_rv.net.01.gz:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+bench-graphs: benchmark/graphs/raw benchmark/graphs/twitter.sg benchmark/graphs/web.sg benchmark/graphs/road.sg benchmark/graphs/kron.sg benchmark/graphs/urand.sg benchmark/graphs/twitter.wsg benchmark/graphs/web.wsg benchmark/graphs/road.wsg benchmark/graphs/kron.wsg benchmark/graphs/urand.wsg benchmark/graphs/twitterU.sg benchmark/graphs/webU.sg benchmark/graphs/roadU.sg benchmark/graphs/kronU.sg benchmark/graphs/urandU.sg
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  File does not exist.
+#  File has not been updated.
+
+# Not a target:
+../shared/Makefile.shared:
+#  Implicit rule search has been done.
+#  Last modified 2021-08-26 00:06:03
+#  File has been updated.
+#  Successfully updated.
+
+benchmark/graphs/raw/twitter.el: benchmark/graphs/raw/twitter_rv.net
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'benchmark/bench.mk', line 39):
+	rm -f $@
+	ln -s twitter_rv.net $@
+
+# Not a target:
+test-load-4w.mtx:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+test-generate-u10:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+benchmark/out/bfs-road.out:
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+
+benchmark/out/sssp-web.out: benchmark/graphs/web.wsg sssp
+#  Implicit rule search has not been done.
+#  File is an intermediate prerequisite.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'benchmark/bench.mk', line 143):
+	./sssp -f $< $(SSSP_ARGS) -d2 > $@
+
+# files hash-table stats:
+# Load=93/1024=9%, Rehash=0, Collisions=7/253=3%
+# VPATH Search Paths
+
+# No 'vpath' search paths.
+
+# No general ('VPATH' variable) search path.
+
+# strcache buffers: 1 (0) / strings = 142 / storage = 2721 B / avg = 19 B
+# current buf: size = 8162 B / used = 2721 B / count = 142 / avg = 19 B
+
+# strcache performance: lookups = 293 / hit rate = 51%
+# hash-table stats:
+# Load=142/8192=2%, Rehash=0, Collisions=4/293=1%
+# Finished Make data base on Wed Apr 12 13:38:42 2023
+
+ 

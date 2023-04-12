@@ -1,0 +1,24 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/mnt/B/sniper/test/gapbs'
+
+
+Error: A compiled version of Sniper is required to run the test applications
+
+g++ -std=c++17 -Wall -fopenmp -mno-sse4 -mno-sse4.1 -mno-sse4.2 -mno-sse4a -mno-avx -mno-avx2 -I/mnt/B/sniper/include  -c src/tc.cc -o src/tc.o -g
+g++ -std=c++17 -Wall -fopenmp src/tc.o -lm -static -L/mnt/B/sniper/lib -pthread  -o tc
+echo "running snipper"
+../../run-sniper -v -n 1 -c gainestown --roi -- ./tc -g 2 -n 1 
+echo
+echo
+echo "Optional: Run '../../tools/cpistack.py' in this directory to generate cpi-stack output for this run"
+echo "Optional: Run '../../tools/mcpat.py' in this directory to generate power output for this run"
+echo "Optional: Run '../../tools/dumpstats.py' in this directory to view detailed statistics for this run"
+echo "Optional: Run '../../tools/gen_topology.py' in this directory to view the system topology for this run"
+echo
+make: Leaving directory '/mnt/B/sniper/test/gapbs'
+ 
+Makefile:36: warning: overriding recipe for target 'clean'
+../shared/Makefile.shared:35: warning: ignoring old recipe for target 'clean'
+make: *** [../shared/Makefile.shared:30: ../../config/buildconf.makefile] Error 1
+make: Failed to remake makefile '../../config/buildconf.makefile'.
+
