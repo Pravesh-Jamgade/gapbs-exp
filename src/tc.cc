@@ -166,6 +166,8 @@ int main(int argc, char* argv[]) {
   // int **arr;
   // arr[0]=&a;
   // arr[1]=&b;
+  // g.PrintByCSR();
+
   fstream f;
   string name = "index.stat";
   f.open(name.c_str(), std::fstream::app | std::fstream::in);
@@ -173,6 +175,10 @@ int main(int argc, char* argv[]) {
   fstream e;
   name = "edge.stat";
   e.open(name.c_str(), std::fstream::app | std::fstream::in);
+
+  fstream d;
+  name = "all_edge.stat";
+  d.open(name.c_str(), std::fstream::app | std::fstream::in);
  
   NodeID** index_arr_base = g.get_index_array();
   NodeID* edge_arr_base = *index_arr_base;
@@ -189,28 +195,29 @@ int main(int argc, char* argv[]) {
     for(int i=0; i< print_nodes; i++){
       f << (index_arr_base+i) << '\n';
     }
-    f << "-----------------------------\n";
-    for(int i=g.num_nodes()-print_nodes; i < g.num_nodes(); i++){
+    f << "*********************************************************\n";
+    for(int i=(g.num_nodes()-print_nodes); i < g.num_nodes(); i++){
       f << (index_arr_base+i) << '\n';
     }
 
-    for(int i=0; i< g.num_nodes(); i++){
+    for(int i=0; i< print_nodes; i++){
       NodeID* off1 = g.get_index_at(i);
       NodeID* off2 = g.get_index_at(i+1);
       int len = off2 - off1;
-      for(int j=0; j< len; j++){
-        e << (off1+j) << '\n';
-      }
+      e << i << "," << off1 << "," << off2 << "," << len << '\n';
     }
-    e << "-----------------------------\n";
-    for(int i=g.num_nodes()-print_nodes; i< g.num_nodes(); i++){
+    e << "*********************************************************\n";
+    for(int i=(g.num_nodes()-print_nodes); i< g.num_nodes(); i++){
       NodeID* off1 = g.get_index_at(i);
       NodeID* off2 = g.get_index_at(i+1);
       int len = off2 - off1;
-      for(int j=0; j< len; j++){
-        e << (off1+j) << '\n';
-      }
+      e << i << "," << off1 << "," << off2 << "," << len << '\n';
     }
+
+    // NodeID* nei_base = g.get_index_at(0);
+    // for(int i=0; i< g.num_edges(); i++){
+    //   d << (nei_base+i) << '\n';
+    // }
   SimRoiEnd();
   g.PrintStats();
   // BenchmarkKernel(cli, g, Hybrid, PrintTriangleStats, TCVerifier);
