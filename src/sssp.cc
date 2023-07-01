@@ -85,8 +85,16 @@ void RelaxEdges(const WGraph &g, NodeID u, WeightT delta,
 }
 
 pvector<WeightT> DeltaStep(const WGraph &g, NodeID source, WeightT delta) {
+ 
+  SimRoiStart();
   Timer t;
   pvector<WeightT> dist(g.num_nodes(), kDistInf);
+
+  uintptr_t addr3s = reinterpret_cast<uintptr_t>(&dist[0]);
+  uintptr_t addr3e = reinterpret_cast<uintptr_t>(&dist[g.num_nodes()-1]);
+  SimUser(5, addr3s);
+  SimUser(6, addr3e);
+
   dist[source] = 0;
   pvector<NodeID> frontier(g.num_edges_directed());
   // two element arrays for double buffering curr=iter&1, next=(iter+1)&1
@@ -146,6 +154,7 @@ pvector<WeightT> DeltaStep(const WGraph &g, NodeID source, WeightT delta) {
     #pragma omp single
     cout << "took " << iter << " iterations" << endl;
   }
+  SimRoiEnd();
   return dist;
 }
 
@@ -197,8 +206,20 @@ int main(int argc, char* argv[]) {
     return -1;
   WeightedBuilder b(cli);
   WGraph g = b.MakeGraph();
+
+  NodeID** index_arr_base = g.get_index_array();
+  NodeID* edge_arr_base = *index_arr_base;
+
+  uintptr_t addr1s = reinterpret_cast<uintptr_t>(&index_arr_base[0]);
+  uintptr_t addr1e = reinterpret_cast<uintptr_t>(&index_arr_base[g.num_nodes()-1]);
+  uintptr_t addr2s = reinterpret_cast<uintptr_t>(&edge_arr_base[0]);
+  uintptr_t addr2e = reinterpret_cast<uintptr_t>(&edge_arr_base[g.num_edges()-1]);
+
+  SimUser(1, addr1s);
+  SimUser(2, addr1e);
+  SimUser(3, addr2s);
+  SimUser(4, addr2e);
   
-  SimRoiStart();
   SourcePicker<WGraph> sp(g, cli.start_vertex());
   auto SSSPBound = [&sp, &cli] (const WGraph &g) {
     return DeltaStep(g, sp.PickNext(), cli.delta());
@@ -208,6 +229,5 @@ int main(int argc, char* argv[]) {
     return SSSPVerifier(g, vsp.PickNext(), dist);
   };
   BenchmarkKernel(cli, g, SSSPBound, PrintSSSPStats, VerifierBound);
-  SimRoiEnd();
   return 0;
 }

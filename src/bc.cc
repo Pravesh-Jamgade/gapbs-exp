@@ -94,9 +94,17 @@ void PBFS(const Graph &g, NodeID source, pvector<CountT> &path_counts,
 
 pvector<ScoreT> Brandes(const Graph &g, SourcePicker<Graph> &sp,
                         NodeID num_iters) {
+  
+  SimRoiStart();
   Timer t;
   t.Start();
   pvector<ScoreT> scores(g.num_nodes(), 0);
+
+  uintptr_t addr3s = reinterpret_cast<uintptr_t>(&scores[0]);
+  uintptr_t addr3e = reinterpret_cast<uintptr_t>(&scores[g.num_nodes()-1]);
+  SimUser(5, addr3s);
+  SimUser(6, addr3e);
+
   pvector<CountT> path_counts(g.num_nodes());
   Bitmap succ(g.num_edges_directed());
   vector<SlidingQueue<NodeID>::iterator> depth_index;
@@ -142,6 +150,8 @@ pvector<ScoreT> Brandes(const Graph &g, SourcePicker<Graph> &sp,
   #pragma omp parallel for
   for (NodeID n=0; n < g.num_nodes(); n++)
     scores[n] = scores[n] / biggest_score;
+  
+  SimRoiEnd();
   return scores;
 }
 
@@ -234,7 +244,20 @@ int main(int argc, char* argv[]) {
     cout << "Warning: iterating from same source (-r & -i)" << endl;
   Builder b(cli);
   Graph g = b.MakeGraph();
-  SimRoiStart();
+
+  NodeID** index_arr_base = g.get_index_array();
+  NodeID* edge_arr_base = *index_arr_base;
+
+  uintptr_t addr1s = reinterpret_cast<uintptr_t>(&index_arr_base[0]);
+  uintptr_t addr1e = reinterpret_cast<uintptr_t>(&index_arr_base[g.num_nodes()-1]);
+  uintptr_t addr2s = reinterpret_cast<uintptr_t>(&edge_arr_base[0]);
+  uintptr_t addr2e = reinterpret_cast<uintptr_t>(&edge_arr_base[g.num_edges()-1]);
+
+  SimUser(1, addr1s);
+  SimUser(2, addr1e);
+  SimUser(3, addr2s);
+  SimUser(4, addr2e);
+
   SourcePicker<Graph> sp(g, cli.start_vertex());
   auto BCBound =
     [&sp, &cli] (const Graph &g) { return Brandes(g, sp, cli.num_iters()); };
@@ -243,8 +266,6 @@ int main(int argc, char* argv[]) {
                                      const pvector<ScoreT> &scores) {
     return BCVerifier(g, vsp, cli.num_iters(), scores);
   };
-  //SimRoiStart();
   BenchmarkKernel(cli, g, BCBound, PrintTopScores, VerifierBound);
-  SimRoiEnd();
   return 0;
 }

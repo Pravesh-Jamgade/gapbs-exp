@@ -33,10 +33,18 @@ const float kDamp = 0.85;
 
 pvector<ScoreT> PageRankPullGS(const Graph &g, int max_iters,
                              double epsilon = 0) {
+
+  SimRoiStart();
   const ScoreT init_score = 1.0f / g.num_nodes();
   const ScoreT base_score = (1.0f - kDamp) / g.num_nodes();
   pvector<ScoreT> scores(g.num_nodes(), init_score);
   pvector<ScoreT> outgoing_contrib(g.num_nodes());
+
+  uintptr_t addr3s = reinterpret_cast<uintptr_t>(&scores[0]);
+  uintptr_t addr3e = reinterpret_cast<uintptr_t>(&scores[g.num_nodes()-1]);
+  SimUser(5, addr3s);
+  SimUser(6, addr3e);
+
   #pragma omp parallel for
   for (NodeID n=0; n < g.num_nodes(); n++)
     outgoing_contrib[n] = init_score / g.out_degree(n);
@@ -56,6 +64,8 @@ pvector<ScoreT> PageRankPullGS(const Graph &g, int max_iters,
     if (error < epsilon)
       break;
   }
+
+  SimRoiEnd();
   return scores;
 }
 
@@ -100,15 +110,26 @@ int main(int argc, char* argv[]) {
     return -1;
   Builder b(cli);
   Graph g = b.MakeGraph();
-  SimRoiStart();
+
+  NodeID** index_arr_base = g.get_index_array();
+  NodeID* edge_arr_base = *index_arr_base;
+
+  uintptr_t addr1s = reinterpret_cast<uintptr_t>(&index_arr_base[0]);
+  uintptr_t addr1e = reinterpret_cast<uintptr_t>(&index_arr_base[g.num_nodes()-1]);
+  uintptr_t addr2s = reinterpret_cast<uintptr_t>(&edge_arr_base[0]);
+  uintptr_t addr2e = reinterpret_cast<uintptr_t>(&edge_arr_base[g.num_edges()-1]);
+
+  SimUser(1, addr1s);
+  SimUser(2, addr1e);
+  SimUser(3, addr2s);
+  SimUser(4, addr2e);
+
   auto PRBound = [&cli] (const Graph &g) {
     return PageRankPullGS(g, cli.max_iters(), cli.tolerance());
   };
   auto VerifierBound = [&cli] (const Graph &g, const pvector<ScoreT> &scores) {
     return PRVerifier(g, scores, cli.tolerance());
   };
-//  SimRoiStart();
   BenchmarkKernel(cli, g, PRBound, PrintTopScores, VerifierBound);
-  SimRoiEnd();
   return 0;
 }
