@@ -92,6 +92,8 @@ NodeID SampleFrequentElement(const pvector<NodeID>& comp,
 
 
 pvector<NodeID> Afforest(const Graph &g, int32_t neighbor_rounds = 2) {
+
+  SimRoiStart();
   pvector<NodeID> comp(g.num_nodes());
 
   //*
@@ -160,6 +162,7 @@ pvector<NodeID> Afforest(const Graph &g, int32_t neighbor_rounds = 2) {
   }
   f.close();
 
+  SimRoiEnd();
   return comp;
 }
 
@@ -270,12 +273,7 @@ int main(int argc, char* argv[]) {
   SimUser(3, addr2s);
   SimUser(4, addr2e);
 
-  flush(*index_arr_base);
-  flush(edge_arr_base);
-
-  SimRoiStart();
   auto CCBound = [](const Graph& gr){ return Afforest(gr); };
-//  SimRoiStart();
   BenchmarkKernel(cli, g, CCBound, PrintCompStats, CCVerifier);
   SimRoiEnd();
   return 0;
