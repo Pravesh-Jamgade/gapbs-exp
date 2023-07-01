@@ -137,36 +137,24 @@ int main(int argc, char* argv[]) {
   Builder b(cli);
   Graph g = b.MakeGraph();
   
+  NodeID** index_arr_base = g.get_index_array();
+  NodeID* edge_arr_base = *index_arr_base;
+
+  uintptr_t addr1s = reinterpret_cast<uintptr_t>(&index_arr_base[0]);
+  uintptr_t addr1e = reinterpret_cast<uintptr_t>(&index_arr_base[g.num_nodes()-1]);
+  uintptr_t addr2s = reinterpret_cast<uintptr_t>(&edge_arr_base[0]);
+  uintptr_t addr2e = reinterpret_cast<uintptr_t>(&edge_arr_base[g.num_edges()-1]);
+
+  SimUser(1, addr1s);
+  SimUser(2, addr1e);
+
+  SimUser(3, addr2s);
+  SimUser(4, addr2e);
+
   if (g.directed()) {
     cout << "Input graph is directed but tc requires undirected" << endl;
     return -2;
   }
-
-  // std::set<NodeID*> seen;
-  // std::set<NodeID*> seen2;
-
-  // g.PrintByCSR();
-  // NodeID** addr_index = g.get_index_array();
-  // cout << "index base addr : " << addr_index << '\n';
-  // cout << "neighbor base addr : " << *(addr_index) << '\n';
-  // for(int i=0 ; i< 1; i++){
-  //   NodeID** addr_index = g.get_index_array();
-  //   cout << "index base addr : " << addr_index << '\n';
-  // }
-
-  // for(int i=0 ; i< 1; i++){
-  //   NodeID** addr_index = g.get_index_array();
-  //   cout << "neighbor base addr : " << *(addr_index) << '\n';
-  // }
-  
-  // int sum = 0;
-  // int a = 10;
-  // int b = 11;
-
-  // int **arr;
-  // arr[0]=&a;
-  // arr[1]=&b;
-  // g.PrintByCSR();
 
   fstream f;
   string name = "index.stat";
@@ -176,50 +164,20 @@ int main(int argc, char* argv[]) {
   name = "edge.stat";
   e.open(name.c_str(), std::fstream::app | std::fstream::in);
 
-  fstream d;
-  name = "all_edge.stat";
-  d.open(name.c_str(), std::fstream::app | std::fstream::in);
- 
-  NodeID** index_arr_base = g.get_index_array();
-  NodeID* edge_arr_base = *index_arr_base;
-  SimRoiStart();
+  for(int i=0; i< g.num_nodes(); i++){
+    f << &index_arr_base[i] << '\n';
+  }
   
-    int print_nodes = 50;
-    if(g.num_nodes() < 2*print_nodes)
-    {
-      std::cout << "need nodes more than " << 2*print_nodes << '\n';
-      std::cout << "nodes < print_nodes\n";
-      exit(0);
-    }
+  for(int i=0; i< g.num_edges(); i++){
+    e << &edge_arr_base[i] << '\n';
+  }
 
-    for(int i=0; i< print_nodes; i++){
-      f << (index_arr_base+i) << '\n';
-    }
-    f << "*********************************************************\n";
-    for(int i=(g.num_nodes()-print_nodes); i < g.num_nodes(); i++){
-      f << (index_arr_base+i) << '\n';
-    }
-
-    for(int i=0; i< print_nodes; i++){
-      NodeID* off1 = g.get_index_at(i);
-      NodeID* off2 = g.get_index_at(i+1);
-      int len = off2 - off1;
-      e << i << "," << off1 << "," << off2 << "," << len << '\n';
-    }
-    e << "*********************************************************\n";
-    for(int i=(g.num_nodes()-print_nodes); i< g.num_nodes(); i++){
-      NodeID* off1 = g.get_index_at(i);
-      NodeID* off2 = g.get_index_at(i+1);
-      int len = off2 - off1;
-      e << i << "," << off1 << "," << off2 << "," << len << '\n';
-    }
-
-    // NodeID* nei_base = g.get_index_at(0);
-    // for(int i=0; i< g.num_edges(); i++){
-    //   d << (nei_base+i) << '\n';
-    // }
-  SimRoiEnd();
   g.PrintStats();
-  // BenchmarkKernel(cli, g, Hybrid, PrintTriangleStats, TCVerifier);
+
+  cout << "-----------------------------------------------------------\n";
+  cout << "[APPLICATION] Running Kernel.............\n";
+  cout << "-----------------------------------------------------------\n";
+
+  BenchmarkKernel(cli, g, Hybrid, PrintTriangleStats, TCVerifier);
   return 0;
 }

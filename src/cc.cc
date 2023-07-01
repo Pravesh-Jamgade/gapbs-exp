@@ -94,6 +94,12 @@ NodeID SampleFrequentElement(const pvector<NodeID>& comp,
 pvector<NodeID> Afforest(const Graph &g, int32_t neighbor_rounds = 2) {
   pvector<NodeID> comp(g.num_nodes());
 
+  //*
+  uintptr_t addr3s = reinterpret_cast<uintptr_t>(&comp[0]);
+  uintptr_t addr3e = reinterpret_cast<uintptr_t>(&comp[g.num_nodes()-1]);
+  SimUser(5, addr3s);
+  SimUser(6, addr3e);
+  
   // Initialize each node to a single-node self-pointing tree
   #pragma omp parallel for
   for (NodeID n = 0; n < g.num_nodes(); n++)
@@ -145,6 +151,15 @@ pvector<NodeID> Afforest(const Graph &g, int32_t neighbor_rounds = 2) {
   }
   // Finally, 'compress' for final convergence
   Compress(g, comp);
+
+  fstream f;
+  f.open("property.stat", fstream::out);
+  for(int i=0; i< g.num_nodes(); i++)
+  {
+    f << &comp[i] << '\n';
+  }
+  f.close();
+
   return comp;
 }
 
@@ -214,6 +229,9 @@ bool CCVerifier(const Graph &g, const pvector<NodeID> &comp) {
   return true;
 }
 
+#include "sim_api.h"
+
+void flush(void *p) { asm volatile("clflush 0(%0)\n" : : "c"(p) : "rax"); }
 
 int main(int argc, char* argv[]) {
   CLApp cli(argc, argv, "connected-components-afforest");
@@ -221,6 +239,40 @@ int main(int argc, char* argv[]) {
     return -1;
   Builder b(cli);
   Graph g = b.MakeGraph();
+
+  NodeID** index_arr_base = g.get_index_array();
+  NodeID* edge_arr_base = *index_arr_base;
+
+  fstream f;
+  string name = "index.stat";
+  f.open(name.c_str(), std::fstream::app | std::fstream::in);
+
+  fstream e;
+  name = "edge.stat";
+  e.open(name.c_str(), std::fstream::app | std::fstream::in);
+
+  for(int i=0; i< g.num_nodes(); i++){
+    f << &index_arr_base[i] << '\n';
+  }
+  
+  for(int i=0; i< g.num_edges(); i++){
+    e << &edge_arr_base[i] << '\n';
+  }
+
+
+  uintptr_t addr1s = reinterpret_cast<uintptr_t>(&index_arr_base[0]);
+  uintptr_t addr1e = reinterpret_cast<uintptr_t>(&index_arr_base[g.num_nodes()-1]);
+  uintptr_t addr2s = reinterpret_cast<uintptr_t>(&edge_arr_base[0]);
+  uintptr_t addr2e = reinterpret_cast<uintptr_t>(&edge_arr_base[g.num_edges()-1]);
+
+  SimUser(1, addr1s);
+  SimUser(2, addr1e);
+  SimUser(3, addr2s);
+  SimUser(4, addr2e);
+
+  flush(*index_arr_base);
+  flush(edge_arr_base);
+
   SimRoiStart();
   auto CCBound = [](const Graph& gr){ return Afforest(gr); };
 //  SimRoiStart();
