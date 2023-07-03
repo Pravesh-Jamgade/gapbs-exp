@@ -86,7 +86,6 @@ void RelaxEdges(const WGraph &g, NodeID u, WeightT delta,
 
 pvector<WeightT> DeltaStep(const WGraph &g, NodeID source, WeightT delta) {
  
-  SimRoiStart();
   Timer t;
   pvector<WeightT> dist(g.num_nodes(), kDistInf);
 
@@ -154,7 +153,6 @@ pvector<WeightT> DeltaStep(const WGraph &g, NodeID source, WeightT delta) {
     #pragma omp single
     cout << "took " << iter << " iterations" << endl;
   }
-  SimRoiEnd();
   return dist;
 }
 
@@ -207,8 +205,8 @@ int main(int argc, char* argv[]) {
   WeightedBuilder b(cli);
   WGraph g = b.MakeGraph();
 
-  NodeID** index_arr_base = g.get_index_array();
-  NodeID* edge_arr_base = *index_arr_base;
+  NodeWeight<int, int>** index_arr_base = g.get_index_array();
+  NodeWeight<int, int>* edge_arr_base = *index_arr_base;
 
   uintptr_t addr1s = reinterpret_cast<uintptr_t>(&index_arr_base[0]);
   uintptr_t addr1e = reinterpret_cast<uintptr_t>(&index_arr_base[g.num_nodes()-1]);

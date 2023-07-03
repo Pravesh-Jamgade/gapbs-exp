@@ -255,54 +255,6 @@ int main(int argc, char* argv[]) {
   Builder b(cli);
   Graph g = b.MakeGraph();
   
-  // cout << "[EDGE-ARRAY]\n";
-  // for(int i=0; i< g.num_edges(); i++){
-  //   DestID_ dest_vert = g.get_edge_array(i);
-  //   f1 << dest_vert <<',';
-  // }
-  // cout << "\n-------------------------\n";
-  // cout << "[OFFSET]\n"; 
-  // for(int i=0; i< g.num_nodes(); i++){
-  //   DestID_* addr = g.get_offset_array(i);
-  //   f2 << addr << ',';
-  // }
-
-  #define TAP 0
-  //offset array 
-  if(TAP){
-    for(int u=0; u<= g.num_nodes()-1; u++){
-      NodeID* addr1 = g.get_offset_array(u);
-      NodeID* addr2 = g.get_offset_array(u+1);
-      int edges = (addr2-addr1);
-        cout <<u<<":";
-        for(int i=0; i< edges; i++){
-          NodeID d = *(addr1+i);
-          cout << d << ",";
-        }
-        cout << '\n';
-    }
-  }
-  else{
-    SimRoiStart();
-    int len = 0;
-    for(int i=0; i< 1e7; i++){
-      for(int u=0; u< g.num_nodes(); u++){
-        // get offset for neighbour array
-        NodeID* addr1 = g.get_offset_array(u);
-        // cout << addr1 << ",";
-      }
-
-      NodeID* base_edge_arr = g.get_edge_array();
-      for(int v=0; v< g.num_edges(); v++){
-        // get neighbour index from offset array
-        NodeID addr2 = *(base_edge_arr+v);
-        // cout << addr2 << ",";
-      }
-    }
-    SimRoiEnd();
-  }
-  // g.PrintTopology();
- 
   SourcePicker<Graph> sp(g, cli.start_vertex());
   auto BFSBound = [&sp] (const Graph &g) { return DOBFS(g, sp.PickNext()); };
   SourcePicker<Graph> vsp(g, cli.start_vertex());
@@ -310,6 +262,5 @@ int main(int argc, char* argv[]) {
     return BFSVerifier(g, vsp.PickNext(), parent);
   };
   BenchmarkKernel(cli, g, BFSBound, PrintBFSStats, VerifierBound);
-  // SimRoiEnd();
   return 0;
 }

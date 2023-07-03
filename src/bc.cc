@@ -94,7 +94,6 @@ void PBFS(const Graph &g, NodeID source, pvector<CountT> &path_counts,
 
 pvector<ScoreT> Brandes(const Graph &g, SourcePicker<Graph> &sp,
                         NodeID num_iters) {
-  
   SimRoiStart();
   Timer t;
   t.Start();

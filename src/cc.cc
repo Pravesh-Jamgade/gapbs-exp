@@ -275,6 +275,5 @@ int main(int argc, char* argv[]) {
 
   auto CCBound = [](const Graph& gr){ return Afforest(gr); };
   BenchmarkKernel(cli, g, CCBound, PrintCompStats, CCVerifier);
-  SimRoiEnd();
   return 0;
 }

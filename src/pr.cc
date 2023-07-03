@@ -33,8 +33,7 @@ const float kDamp = 0.85;
 
 pvector<ScoreT> PageRankPullGS(const Graph &g, int max_iters,
                              double epsilon = 0) {
-
-  SimRoiStart();
+  SimRoiStart();                              
   const ScoreT init_score = 1.0f / g.num_nodes();
   const ScoreT base_score = (1.0f - kDamp) / g.num_nodes();
   pvector<ScoreT> scores(g.num_nodes(), init_score);
@@ -64,7 +63,6 @@ pvector<ScoreT> PageRankPullGS(const Graph &g, int max_iters,
     if (error < epsilon)
       break;
   }
-
   SimRoiEnd();
   return scores;
 }
