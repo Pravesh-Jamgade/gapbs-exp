@@ -281,6 +281,9 @@ class Reader {
     DestID_ **index = nullptr, **inv_index = nullptr;
     DestID_ *neighs = nullptr, *inv_neighs = nullptr;
     file.read(reinterpret_cast<char*>(&directed), sizeof(bool));
+
+    std::cout << "*********[READER] directed=" << directed << "*********" <<'\n';
+   
     file.read(reinterpret_cast<char*>(&num_edges), sizeof(SGOffset));
     file.read(reinterpret_cast<char*>(&num_nodes), sizeof(SGOffset));
     pvector<SGOffset> offsets(num_nodes+1);
