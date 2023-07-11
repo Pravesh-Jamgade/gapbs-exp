@@ -244,29 +244,32 @@ int main(int argc, char* argv[]) {
   Graph g = b.MakeGraph();
 
   NodeID** index_arr_base = g.get_index_array();
-  NodeID* edge_arr_base = *index_arr_base;
-
-  fstream f;
-  string name = "index.stat";
-  f.open(name.c_str(), std::fstream::app | std::fstream::in);
-
-  fstream e;
-  name = "edge.stat";
-  e.open(name.c_str(), std::fstream::app | std::fstream::in);
-
-  for(int i=0; i< g.num_nodes(); i++){
-    f << &index_arr_base[i] << '\n';
-  }
+  NodeID* edge_arr_base = g.get_neighbor_array();
   
-  for(int i=0; i< g.num_edges(); i++){
-    e << &edge_arr_base[i] << '\n';
-  }
+  // fstream f;
+  // string name = "index.stat";
+  // f.open(name.c_str(), std::fstream::app | std::fstream::in);
 
+  // fstream e;
+  // name = "edge.stat";
+  // e.open(name.c_str(), std::fstream::app | std::fstream::in);
+
+  // for(int i=0; i< g.num_nodes(); i++){
+  //   f << &index_arr_base[i] << '\n';
+  // }
+  
+  // for(int i=0; i< g.num_edges(); i++){
+  //   e << &edge_arr_base[i] << '\n';
+  // }
+
+  cout << "----------------------------------------------\n";
+  g.PrintByCSR();
 
   uintptr_t addr1s = reinterpret_cast<uintptr_t>(&index_arr_base[0]);
   uintptr_t addr1e = reinterpret_cast<uintptr_t>(&index_arr_base[g.num_nodes()-1]);
+
   uintptr_t addr2s = reinterpret_cast<uintptr_t>(&edge_arr_base[0]);
-  uintptr_t addr2e = reinterpret_cast<uintptr_t>(&edge_arr_base[g.num_edges()-1]);
+  uintptr_t addr2e = reinterpret_cast<uintptr_t>(g.get_end_addr_edge_arr());// last nodes offset address to edge array - first => len of edge array
 
   SimUser(1, addr1s);
   SimUser(2, addr1e);

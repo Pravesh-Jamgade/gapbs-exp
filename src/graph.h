@@ -133,7 +133,9 @@ class CSRGraph {
  public:
   CSRGraph() : directed_(false), num_nodes_(-1), num_edges_(-1),
     out_index_(nullptr), out_neighbors_(nullptr),
-    in_index_(nullptr), in_neighbors_(nullptr) {}
+    in_index_(nullptr), in_neighbors_(nullptr) {
+      in_edge_arr_len = out_edge_arr_len =0;
+    }
 
   /*
   index - for each vertex it is a offset value relative to base of neigh array
@@ -144,6 +146,10 @@ class CSRGraph {
     out_index_(index), out_neighbors_(neighs),
     in_index_(index), in_neighbors_(neighs) {
       num_edges_ = (out_index_[num_nodes_] - out_index_[0]) / 2;
+      int len = in_index_[num_nodes-1] - in_index_[0];
+      std::cout << len << '\n';
+      out_edge_arr_len = in_edge_arr_len = len + in_degree(num_nodes-1);
+      std::cout << in_edge_arr_len << '\n';
     }
 
   CSRGraph(int64_t num_nodes, DestID_** out_index, DestID_* out_neighs,
@@ -254,22 +260,52 @@ class CSRGraph {
       std::cout << '\n';
     }
 
+    std::cout << '\n';
+    for(int i=0; i< num_nodes(); i++)
+    {
+      std::cout << i << "indeg="<< in_degree(i) << ':';
+      NodeID_* temp = get_index_at(i);
+      int len = get_index_at(i+1) - get_index_at(i);
+      for(int j=0; j<  len; j++)
+      {
+        std::cout << '(' << temp+j << ',' << *(temp+j) << ')' << ',';
+      }
+      std::cout << '\n';
+    }
+
     //// refer when confuse, it is just double ptr
     std::cout << '\n';
     PrintTopology();
-    std::cout << '\n';
 
-    std::cout << "index array\n";
+    std::cout << "\nindex array\n";
     NodeID_** addr = get_index_array();
     for(int u=0; u< num_nodes(); u++){
       std::cout << "("<< addr+u << "," << *(addr+u) << "," << *(*(addr+u)) << "),";
     }
-    std::cout << '\n';
 
-    std::cout << "edge array\n";
+    if(directed())
+    {
+      std::cout << "\nout-index array\n";
+      NodeID_** addr = get_out_index_array();
+      for(int u=0; u< num_nodes(); u++){
+        std::cout << "("<< addr+u << "," << *(addr+u) << "," << *(*(addr+u)) << "),";
+      }
+      std::cout << '\n';
+    }
+
+    std::cout << "\nin-edge array\n";
     NodeID_* edge_addr = get_neighbor_array();
-    for(int u=0; u< num_edges(); u++){ // num_edges is not what correct here, we need total size of edge-array, which is more than these value
-      std::cout << (edge_addr+u) << '\n';
+    for(int u=0; u< get_out_edge_array_len(); u++){
+      std::cout << (edge_addr+u) << "," << *(edge_addr+u) << '\n';
+    }
+
+    if(directed())
+    {
+      std::cout << "\nout-edge array\n";
+      NodeID_* edge_addr = get_out_neighbor_array();
+      for(int u=0; u< get_out_edge_array_len(); u++){ 
+        std::cout << (edge_addr+u) << "," << *(edge_addr+u) << '\n';
+      }
     }
   }
 
@@ -296,16 +332,43 @@ class CSRGraph {
     return Range<NodeID_>(num_nodes());
   }
 
-NodeID_* get_neighbor_array(){
+// return in_neighbour aka in-edge data array
+DestID_* get_neighbor_array(){
   return in_neighbors_;
 }
 
-NodeID_* get_index_at(int i){
+// return out_neighbour aka out-edge array
+DestID_* get_out_neighbor_array(){
+  return out_neighbors_;
+}
+
+// return in_index aka in-index array
+DestID_** get_index_array(){
+  return in_index_;
+}
+
+// return out_index aka out-index array
+DestID_** get_out_index_array(){
+  return out_index_;
+}
+
+int get_edge_array_len()
+{
+  return in_edge_arr_len;
+}
+
+int get_out_edge_array_len()
+{
+  return out_edge_arr_len;
+}
+
+DestID_* get_index_at(int i){
   return in_index_[i];
 }
 
-NodeID_** get_index_array(){
-  return in_index_;
+DestID_* get_end_addr_edge_arr()
+{
+  return &in_neighbors_[get_edge_array_len()-1];
 }
 
 void print_base_index(){
@@ -322,6 +385,10 @@ void print_base_index(){
   DestID_*  out_neighbors_;
   DestID_** in_index_;
   DestID_*  in_neighbors_;
+
+  //*
+  intptr_t in_edge_arr_len;
+  intptr_t out_edge_arr_len;
 };
 
 #endif  // GRAPH_H_
