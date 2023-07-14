@@ -1,4 +1,5 @@
 TARGET=tc
+IN=5
 include ../shared/Makefile.shared
 
 CXX_FLAGS += -std=c++17 -Wall
@@ -25,7 +26,7 @@ $(TARGET).o:
 
 run_$(TARGET):
 	@echo "running snipper"
-	../../run-sniper -v -n 1 -c gainestown --roi -- ./$(TARGET) -g 2 -n 1 
+	../../run-sniper -v -n 1 -c gainestown  -- ./$(TARGET) -g $(IN) -n 1 
 
 include test/test.mk
 
@@ -33,5 +34,5 @@ include test/test.mk
 include benchmark/bench.mk
 
 clean:
-	rm -rf $(SUITE) test/out/* *.db $(TARGET) *.csv sim.* *.log *.out *.png *.o topo.* power.* $(CLEAN_EXA)
+	rm -rf $(SUITE) *stat test/out/* *.db $(TARGET) *.csv sim.* *.log *.out *.png *.o topo.* power.* $(CLEAN_EXA)
 CLEAN_EXTRA=viz

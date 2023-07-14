@@ -371,12 +371,6 @@ DestID_* get_end_addr_edge_arr()
   return &in_neighbors_[get_edge_array_len()-1];
 }
 
-void print_base_index(){
-  std::cout << "base of index:\n";
-  for(int i=0; i< num_nodes(); i++)
-    std::cout << *(in_index_+i) << '\n';
-}
-
  private:
   bool directed_;
   int64_t num_nodes_;
