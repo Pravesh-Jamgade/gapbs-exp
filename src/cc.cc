@@ -105,8 +105,9 @@ pvector<NodeID> Afforest(const Graph &g, int32_t neighbor_rounds = 2) {
   //*
   NodeID addr3s = reinterpret_cast<uintptr_t>(&comp[0]);
   NodeID addr3e = reinterpret_cast<uintptr_t>(&comp[g.num_nodes()-1]);
-  SimUser(5, addr3s);
-  SimUser(6, addr3e);
+  // SimUser(5, addr3s);
+  // SimUser(6, addr3e);
+  // SimUser(765, 0);
   
   
   // Initialize each node to a single-node self-pointing tree
@@ -274,10 +275,10 @@ int main(int argc, char* argv[]) {
   uintptr_t addr2s = reinterpret_cast<uintptr_t>(&edge_arr_base[0]);
   uintptr_t addr2e = reinterpret_cast<uintptr_t>(g.get_end_addr_edge_arr());// last nodes offset address to edge array - first => len of edge array
 
-  SimUser(1, addr1s);
-  SimUser(2, addr1e);
-  SimUser(3, addr2s);
-  SimUser(4, addr2e);
+  // SimUser(1, addr1s);
+  // SimUser(2, addr1e);
+  // SimUser(3, addr2s);
+  // SimUser(4, addr2e);
 
   auto CCBound = [](const Graph& gr){ return Afforest(gr); };
   BenchmarkKernel(cli, g, CCBound, PrintCompStats, CCVerifier);
