@@ -26,7 +26,7 @@ $(TARGET).o:
 
 run_$(TARGET):
 	@echo "running snipper"
-	../../run-sniper -v -n 1 -c gainestown  -- ./$(TARGET) -g $(IN) -n 1 
+	../../run-sniper -v -n 1 -c gainestown -- ./$(TARGET) -g $(IN) -n 1 
 
 include test/test.mk
 
