@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include <iostream>
 #include <iomanip>
 #include <limits>
@@ -82,42 +83,60 @@ int main() {
     //     // std::cout << (b+i) << ", new=" << *(b+i) <<  '\n';//", old=" << t <<
     // }
     SimRoiEnd();
-
-    // int a[]={1,2,3,4,5};// neigh
-    // int **p = (int**)malloc(sizeof(int**)*5);// index
-    // for(int i=0; i< 5; i++)
-    // {
-    //     p[i] = (int*)malloc(sizeof(int*));
-    // }
-
-    // for(int i=0; i< 5; i++)
-    // {
-    //     p[i]=&a[i];
-    // }
-
-    // for(int i=0; i< 5; i++)
-    // {
-    //     std::cout << &p[i] << ',' << p[i] << "=" << &a[i] << ',' << *p[i] << '\n';
-    // }
-
-    // // new
-    // int **q;
-    // q = new int*[5];
-    // for(int i=0; i< 5; i++)
-    // {
-    //     q[i]=&a[i];
-    // }
-
-    // for(int i=0; i< 5; i++)
-    // {
-    //     std::cout << &q[i] << ',' << q[i] << "=" << &a[i] << ',' << *q[i] << '\n';
-    // }
-
-    // std::cout << '\n';
-
-    // std::cout << q << "," << q+4 << '\n';
-
-    // if(1>1)
-    //     std::cout << "Ok";
     return 0;
 }
+// =======
+// #include <bits/stdc++.h>
+// #include "sim_api.h"
+// #define SZ 100000
+// #define SY 99999
+// using namespace std;
+
+
+// int main()
+// {
+//     int *a = (int*) malloc(sizeof(int)*SZ);
+//     for(int i=0; i< SZ; i++)
+//     {
+//         a[i] = rand()%SY;
+//     }
+//     uintptr_t addr3s = reinterpret_cast<uintptr_t>(&a[0]);
+//     uintptr_t addr3e = reinterpret_cast<uintptr_t>(&a[SY]);
+//     SimUser(1, addr3s);
+//         SimUser(2, addr3e);
+//         SimUser(765, 0);
+
+//     int index = 0;
+
+//     #ifdef LD
+//         cout << "LD LD LD LD LD LD\n";
+//         cout << "LD LD LD LD LD LD\n";
+
+//         SimRoiStart();
+//         for(int i=0; i< SZ; i++)
+//         {
+//             index = *(a+index);
+//         }
+//         SimRoiEnd();
+//     #endif
+
+//     #ifdef NOP
+//         cout << "NOP NOP NOP NOP NOP NOP\n";
+//         cout << "NOP NOP NOP NOP NOP NOP\n";
+
+//         SimRoiStart();
+//         for(int i=0; i< SZ; i++)
+//         {
+//             index = *(a+index);
+//             asm volatile("nop");
+//             asm volatile("nop");
+//             asm volatile("nop");
+//             asm volatile("nop");
+//             asm volatile("nop");
+//         }
+//         SimRoiEnd();
+//     #endif
+
+// >>>>>>> 23d1d3e0016b1fce17c038380bc2b2a3f4dde63d
+//     return 0;
+// }
