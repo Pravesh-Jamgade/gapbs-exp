@@ -145,11 +145,11 @@ class BuilderBase {
     #pragma omp parallel for private(n_start, n_end)
     for (NodeID_ n=0; n < g.num_nodes(); n++) {
       if (transpose) {
-        n_start = g.in_neigh(n).begin();
-        n_end = g.in_neigh(n).end();
+        n_start = *(g.in_neigh(n).begin());
+        n_end = *(g.in_neigh(n).end());
       } else {
-        n_start = g.out_neigh(n).begin();
-        n_end = g.out_neigh(n).end();
+        n_start = *(g.out_neigh(n).begin());
+        n_end = *(g.out_neigh(n).end());
       }
       std::sort(n_start, n_end);
       DestID_ *new_end = std::unique(n_start, n_end);
@@ -162,9 +162,9 @@ class BuilderBase {
     #pragma omp parallel for private(n_start)
     for (NodeID_ n=0; n < g.num_nodes(); n++) {
       if (transpose)
-        n_start = g.in_neigh(n).begin();
+        n_start = *(g.in_neigh(n).begin());
       else
-        n_start = g.out_neigh(n).begin();
+        n_start = *(g.out_neigh(n).begin());
       std::copy(n_start, n_start+diffs[n], (*sq_index)[n]);
     }
   }

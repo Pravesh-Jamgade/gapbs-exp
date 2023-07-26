@@ -111,9 +111,9 @@ class CSRGraph {
       OffsetT max_offset = end() - begin();
       start_offset_ = std::min(start_offset, max_offset);
     }
-    typedef DestID_* iterator;
-    iterator begin() { return g_index_[n_] + start_offset_; }
-    iterator end()   { return g_index_[n_+1]; }
+    typedef DestID_** iterator;
+    iterator begin() { return &g_index_[n_] + start_offset_; }
+    iterator end()   { return &g_index_[n_+1]; }
   };
 
   void ReleaseResources() {

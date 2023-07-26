@@ -16,6 +16,22 @@
 #include "timer.h"
 
 #include "sim_api.h"
+
+#include <set>
+
+uintptr_t A, B;
+int top=100;
+std::set<uint64_t> addr;
+void add_addr(uint64_t a)
+{
+  if(top>0 && (a<A && a>B))
+  {
+    addr.insert(a);
+    top--;
+  }
+  
+}
+
 /*
 GAP Benchmark Suite
 Kernel: Connected Components (CC)
@@ -121,9 +137,11 @@ pvector<NodeID> Afforest(const Graph &g, int32_t neighbor_rounds = 2) {
   for (int r = 0; r < neighbor_rounds; ++r) {
   #pragma omp parallel for schedule(dynamic,16384)
     for (NodeID u = 0; u < g.num_nodes(); u++) {
-      for (NodeID v : g.out_neigh(u, r)) {
+      for (NodeID* v : g.out_neigh(u, r)) {
+        uint64_t temp = reinterpret_cast<uint64_t>(v);
+        add_addr(temp);
         // Link at most one time if neighbor available at offset r
-        Link(u, v, comp);
+        Link(u, *v, comp);
         break;
       }
     }
@@ -144,8 +162,10 @@ pvector<NodeID> Afforest(const Graph &g, int32_t neighbor_rounds = 2) {
       if (comp[u] == c)
         continue;
       // Skip over part of neighborhood (determined by neighbor_rounds)
-      for (NodeID v : g.out_neigh(u, neighbor_rounds)) {
-        Link(u, v, comp);
+      for (NodeID* v : g.out_neigh(u, neighbor_rounds)) {
+        uint64_t temp = reinterpret_cast<uint64_t>(v);
+        add_addr(temp);
+        Link(u, *v, comp);
       }
     }
   } else {
@@ -153,12 +173,16 @@ pvector<NodeID> Afforest(const Graph &g, int32_t neighbor_rounds = 2) {
     for (NodeID u = 0; u < g.num_nodes(); u++) {
       if (comp[u] == c)
         continue;
-      for (NodeID v : g.out_neigh(u, neighbor_rounds)) {
-        Link(u, v, comp);
+      for (NodeID* v : g.out_neigh(u, neighbor_rounds)) {
+        uint64_t temp = reinterpret_cast<uint64_t>(v);
+        add_addr(temp);
+        Link(u, *v, comp);
       }
       // To support directed graphs, process reverse graph completely
-      for (NodeID v : g.in_neigh(u)) {
-        Link(u, v, comp);
+      for (NodeID* v : g.in_neigh(u)) {
+        uint64_t temp = reinterpret_cast<uint64_t>(v);
+        add_addr(temp);
+        Link(u, *v, comp);
       }
     }
   }
@@ -210,7 +234,8 @@ bool CCVerifier(const Graph &g, const pvector<NodeID> &comp) {
     visited.set_bit(source);
     for (auto it = frontier.begin(); it != frontier.end(); it++) {
       NodeID u = *it;
-      for (NodeID v : g.out_neigh(u)) {
+      for (NodeID *ttt : g.out_neigh(u)) {
+        NodeID v = *ttt;
         if (comp[v] != curr_label)
           return false;
         if (!visited.get_bit(v)) {
@@ -219,7 +244,8 @@ bool CCVerifier(const Graph &g, const pvector<NodeID> &comp) {
         }
       }
       if (g.directed()) {
-        for (NodeID v : g.in_neigh(u)) {
+        for (NodeID* ttt : g.in_neigh(u)) {
+          NodeID v = *ttt;
           if (comp[v] != curr_label)
             return false;
           if (!visited.get_bit(v)) {
@@ -280,8 +306,21 @@ int main(int argc, char* argv[]) {
   SimUser(3, addr2s);
   SimUser(4, addr2e);
 
+  A = addr2s;
+  B = addr2e;
+
+  A = A>B?B:A;
+
   auto CCBound = [](const Graph& gr){ return Afforest(gr); };
   BenchmarkKernel(cli, g, CCBound, PrintCompStats, CCVerifier);
 
+  std::cout << "-----------------------------------------\n";
+  std::cout << A << " < " << B << '\n';
+  std::cout << "-----------------------------------------\n";
+
+  for(auto e: addr)
+  {
+    std::cout << std::hex << e << '\n';
+  }
   return 0;
 }
