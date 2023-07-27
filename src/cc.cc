@@ -24,12 +24,13 @@ int top=100;
 std::set<uint64_t> addr;
 void add_addr(uint64_t a)
 {
-  if(top>0 && (a<A && a>B))
+  if(a<A || B<a)
   {
-    addr.insert(a);
-    top--;
+    if(top){
+      addr.insert(a);
+      top--;
+    }
   }
-  
 }
 
 /*
