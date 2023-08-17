@@ -53,6 +53,13 @@ using namespace std;
 
 size_t OrderedCount(const Graph &g) {
   size_t total = 0;
+
+  NodeID addr3s = reinterpret_cast<uintptr_t>(&total);
+  NodeID addr3e = reinterpret_cast<uintptr_t>(&total);
+  SimUser(5, addr3s);
+  SimUser(6, addr3e);
+  SimUser(765, 0);
+
   #pragma omp parallel for reduction(+ : total) schedule(dynamic, 64)
   for (NodeID u=0; u < g.num_nodes(); u++) {
     for (NodeID v : g.out_neigh(u)) {
@@ -156,27 +163,27 @@ int main(int argc, char* argv[]) {
     return -2;
   }
 
-  fstream f;
-  string name = "index.stat";
-  f.open(name.c_str(), std::fstream::app | std::fstream::in);
+  // fstream f;
+  // string name = "index.stat";
+  // f.open(name.c_str(), std::fstream::app | std::fstream::in);
 
-  fstream e;
-  name = "edge.stat";
-  e.open(name.c_str(), std::fstream::app | std::fstream::in);
+  // fstream e;
+  // name = "edge.stat";
+  // e.open(name.c_str(), std::fstream::app | std::fstream::in);
 
-  for(int i=0; i< g.num_nodes(); i++){
-    f << &index_arr_base[i] << '\n';
-  }
+  // for(int i=0; i< g.num_nodes(); i++){
+  //   f << &index_arr_base[i] << '\n';
+  // }
   
-  for(int i=0; i< g.num_edges(); i++){
-    e << &edge_arr_base[i] << '\n';
-  }
+  // for(int i=0; i< g.num_edges(); i++){
+  //   e << &edge_arr_base[i] << '\n';
+  // }
 
-  g.PrintStats();
+  // g.PrintStats();
 
-  cout << "-----------------------------------------------------------\n";
-  cout << "[APPLICATION] Running Kernel.............\n";
-  cout << "-----------------------------------------------------------\n";
+  // cout << "-----------------------------------------------------------\n";
+  // cout << "[APPLICATION] Running Kernel.............\n";
+  // cout << "-----------------------------------------------------------\n";
 
   BenchmarkKernel(cli, g, Hybrid, PrintTriangleStats, TCVerifier);
   return 0;

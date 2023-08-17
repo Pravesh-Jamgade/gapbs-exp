@@ -33,7 +33,7 @@ const float kDamp = 0.85;
 
 pvector<ScoreT> PageRankPullGS(const Graph &g, int max_iters,
                              double epsilon = 0) {
-  SimRoiStart();                              
+  // SimRoiStart();                              
   const ScoreT init_score = 1.0f / g.num_nodes();
   const ScoreT base_score = (1.0f - kDamp) / g.num_nodes();
   pvector<ScoreT> scores(g.num_nodes(), init_score);
@@ -43,6 +43,7 @@ pvector<ScoreT> PageRankPullGS(const Graph &g, int max_iters,
   uintptr_t addr3e = reinterpret_cast<uintptr_t>(&scores[g.num_nodes()-1]);
   SimUser(5, addr3s);
   SimUser(6, addr3e);
+  SimUser(765, 0);
 
   #pragma omp parallel for
   for (NodeID n=0; n < g.num_nodes(); n++)
@@ -63,7 +64,7 @@ pvector<ScoreT> PageRankPullGS(const Graph &g, int max_iters,
     if (error < epsilon)
       break;
   }
-  SimRoiEnd();
+  // SimRoiEnd();
   return scores;
 }
 

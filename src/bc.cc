@@ -94,7 +94,7 @@ void PBFS(const Graph &g, NodeID source, pvector<CountT> &path_counts,
 
 pvector<ScoreT> Brandes(const Graph &g, SourcePicker<Graph> &sp,
                         NodeID num_iters) {
-  SimRoiStart();
+  // SimRoiStart();
   Timer t;
   t.Start();
   pvector<ScoreT> scores(g.num_nodes(), 0);
@@ -103,6 +103,7 @@ pvector<ScoreT> Brandes(const Graph &g, SourcePicker<Graph> &sp,
   uintptr_t addr3e = reinterpret_cast<uintptr_t>(&scores[g.num_nodes()-1]);
   SimUser(5, addr3s);
   SimUser(6, addr3e);
+  SimUser(765, 0);
 
   pvector<CountT> path_counts(g.num_nodes());
   Bitmap succ(g.num_edges_directed());
@@ -150,7 +151,7 @@ pvector<ScoreT> Brandes(const Graph &g, SourcePicker<Graph> &sp,
   for (NodeID n=0; n < g.num_nodes(); n++)
     scores[n] = scores[n] / biggest_score;
   
-  SimRoiEnd();
+  // SimRoiEnd();
   return scores;
 }
 
