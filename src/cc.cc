@@ -269,6 +269,9 @@ int main(int argc, char* argv[]) {
   // cout << "----------------------------------------------\n";
   // g.PrintByCSR();
 
+  printf("[index] a=%x to b=%x\n", &index_arr_base[0], &index_arr_base[g.num_nodes()-1]);
+  printf("[edge] a=%x to b=%x\n", &edge_arr_base[0], g.get_end_addr_edge_arr());
+
   uintptr_t addr1s = reinterpret_cast<uintptr_t>(&index_arr_base[0]);
   uintptr_t addr1e = reinterpret_cast<uintptr_t>(&index_arr_base[g.num_nodes()-1]);
 
