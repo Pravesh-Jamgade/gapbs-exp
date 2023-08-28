@@ -13,6 +13,7 @@
 #include "pvector.h"
 #include "util.h"
 
+#include <unistd.h>
 
 /*
 GAP Benchmark Suite
@@ -369,6 +370,13 @@ DestID_* get_index_at(int i){
 DestID_* get_end_addr_edge_arr()
 {
   return &in_neighbors_[get_edge_array_len()-1];
+}
+
+int64_t get_num_element_per_pages() const
+{
+  int64_t page_size = getpagesize();
+  int64_t no_ele_per_page = (int64_t) (page_size/sizeof(DestID_*));
+  return no_ele_per_page;
 }
 
  private:

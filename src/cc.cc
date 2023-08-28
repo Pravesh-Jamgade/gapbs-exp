@@ -16,6 +16,7 @@
 #include "timer.h"
 
 #include "sim_api.h"
+
 /*
 GAP Benchmark Suite
 Kernel: Connected Components (CC)
@@ -102,18 +103,12 @@ NodeID SampleFrequentElement(const pvector<NodeID>& comp,
 pvector<NodeID> Afforest(const Graph &g, int32_t neighbor_rounds = 2) {
   pvector<NodeID> comp(g.num_nodes());
 
-  int page_size = getpagesize();
-  int no_ele_per_page = (int) (page_size/sizeof(NodeID*));
-  int index_arr_len = g.num_nodes();
-  int edge_arr_len = g.get_edge_array_len(); 
-
-  int seed = 1;
-  for(int i=0; i< index_arr_len; i+=no_ele_per_page)
+  int no_ele_per_page = g.get_num_element_per_pages();
+  for(int i=0; i< g.num_nodes(); i+=no_ele_per_page)
   {
     uintptr_t addr = reinterpret_cast<uintptr_t>(&comp[i]);
-    SimUser(seed+i, addr);
+    SimUser(3, addr);
   }
-  std::cout << "(property) last seed: " << (seed+index_arr_len-1) << '\n';
   
   // Initialize each node to a single-node self-pointing tree
   //SimRoiStart();
@@ -241,9 +236,6 @@ bool CCVerifier(const Graph &g, const pvector<NodeID> &comp) {
   return true;
 }
 
-#include "sim_api.h"
-#include <unistd.h>
-
 void flush(void *p) { asm volatile("clflush 0(%0)\n" : : "c"(p) : "rax"); }
 
 int main(int argc, char* argv[]) {
@@ -286,27 +278,22 @@ int main(int argc, char* argv[]) {
   // SimUser(3, addr2s);
   // SimUser(4, addr2e);
 
-  int page_size = getpagesize();
-  int no_ele_per_page = (int) (page_size/sizeof(NodeID*));
+  int no_ele_per_page = g.get_num_element_per_pages();
   int index_arr_len = g.num_nodes();
   int edge_arr_len = g.get_edge_array_len(); 
   printf("[APPLICATION] len(index) = %d, len(edge) = %d\n", index_arr_len, edge_arr_len);
 
-  int seed = 1;
   for(int i=0; i< index_arr_len; i+=no_ele_per_page)
   {
     uintptr_t addr = reinterpret_cast<uintptr_t>(&index_arr_base[i]);
-    SimUser(seed+i, addr);
+    SimUser(1, addr);
   }
-  std::cout << "(index) last seed: " << (seed+index_arr_len-1) << '\n';
 
-  seed = index_arr_len;
   for(int i=0; i< edge_arr_len; i++)
   {
     uintptr_t addr = reinterpret_cast<uintptr_t>(&edge_arr_base[i]);
-    SimUser(seed+i, addr);
+    SimUser(2, addr);
   }
-  std::cout << "(edge) last seed: " << (seed+edge_arr_len-1) << '\n';
 
   auto CCBound = [](const Graph& gr){ return Afforest(gr); };
   BenchmarkKernel(cli, g, CCBound, PrintCompStats, CCVerifier);
