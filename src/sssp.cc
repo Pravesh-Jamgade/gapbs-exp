@@ -15,7 +15,7 @@
 #include "pvector.h"
 #include "timer.h"
 
-#include "sim_api.h"
+#include "../../magic.h"
 /*
 GAP Benchmark Suite
 Kernel: Single-source Shortest Paths (SSSP)
@@ -91,8 +91,7 @@ pvector<WeightT> DeltaStep(const WGraph &g, NodeID source, WeightT delta) {
 
   uintptr_t addr3s = reinterpret_cast<uintptr_t>(&dist[0]);
   uintptr_t addr3e = reinterpret_cast<uintptr_t>(&dist[g.num_nodes()-1]);
-  SimUser(5, addr3s);
-  SimUser(6, addr3e);
+  SimUser(addr3s, addr3e, 3);
 
   dist[source] = 0;
   pvector<NodeID> frontier(g.num_edges_directed());
@@ -213,10 +212,10 @@ int main(int argc, char* argv[]) {
   uintptr_t addr2s = reinterpret_cast<uintptr_t>(&edge_arr_base[0]);
   uintptr_t addr2e = reinterpret_cast<uintptr_t>(&edge_arr_base[g.num_edges()-1]);
 
-  SimUser(1, addr1s);
-  SimUser(2, addr1e);
-  SimUser(3, addr2s);
-  SimUser(4, addr2e);
+  SimUser(addr1s, addr2e, 1);
+  // SimUser(2, addr1e);
+  SimUser(addr2s, addr2e, 2);
+  // SimUser(4, addr2e);
   
   SourcePicker<WGraph> sp(g, cli.start_vertex());
   auto SSSPBound = [&sp, &cli] (const WGraph &g) {

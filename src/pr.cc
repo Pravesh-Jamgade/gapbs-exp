@@ -10,7 +10,8 @@
 #include "command_line.h"
 #include "graph.h"
 #include "pvector.h"
-#include "sim_api.h"
+#include "../../magic.h"
+
 /*
 GAP Benchmark Suite
 Kernel: PageRank (PR)
@@ -41,9 +42,7 @@ pvector<ScoreT> PageRankPullGS(const Graph &g, int max_iters,
 
   uintptr_t addr3s = reinterpret_cast<uintptr_t>(&scores[0]);
   uintptr_t addr3e = reinterpret_cast<uintptr_t>(&scores[g.num_nodes()-1]);
-  SimUser(5, addr3s);
-  SimUser(6, addr3e);
-  SimUser(765, 0);
+  SimUser(addr3s,addr3e,3);
 
   #pragma omp parallel for
   for (NodeID n=0; n < g.num_nodes(); n++)
@@ -118,10 +117,8 @@ int main(int argc, char* argv[]) {
   uintptr_t addr2s = reinterpret_cast<uintptr_t>(&edge_arr_base[0]);
   uintptr_t addr2e = reinterpret_cast<uintptr_t>(g.get_end_addr_edge_arr());
 
-  SimUser(1, addr1s);
-  SimUser(2, addr1e);
-  SimUser(3, addr2s);
-  SimUser(4, addr2e);
+  SimUser(addr1s,addr1e,1);
+  SimUser(addr2s,addr2e,2);
 
   auto PRBound = [&cli] (const Graph &g) {
     return PageRankPullGS(g, cli.max_iters(), cli.tolerance());

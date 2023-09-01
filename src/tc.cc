@@ -18,8 +18,9 @@
 #include "pvector.h"
 
 #include <set>
-#include "sim_api.h"
 #include <unistd.h> 
+
+#include "../../magic.h"
 /*
 GAP Benchmark Suite
 Kernel: Triangle Counting (TC)
@@ -56,9 +57,10 @@ size_t OrderedCount(const Graph &g) {
 
   NodeID addr3s = reinterpret_cast<uintptr_t>(&total);
   NodeID addr3e = reinterpret_cast<uintptr_t>(&total);
-  SimUser(5, addr3s);
-  SimUser(6, addr3e);
-  SimUser(765, 0);
+  SimUser(addr3s,addr3e,3);
+  // SimUser(addr3e, 3);
+
+  std::cout  << std::hex << "PROPERY: " << addr3s << "," << addr3e << '\n';
 
   #pragma omp parallel for reduction(+ : total) schedule(dynamic, 64)
   for (NodeID u=0; u < g.num_nodes(); u++) {
@@ -147,16 +149,19 @@ int main(int argc, char* argv[]) {
   NodeID** index_arr_base = g.get_index_array();
   NodeID* edge_arr_base = *index_arr_base;
 
-  uintptr_t addr1s = reinterpret_cast<uintptr_t>(&index_arr_base[0]);
-  uintptr_t addr1e = reinterpret_cast<uintptr_t>(&index_arr_base[g.num_nodes()-1]);
-  uintptr_t addr2s = reinterpret_cast<uintptr_t>(&edge_arr_base[0]);
-  uintptr_t addr2e = reinterpret_cast<uintptr_t>(&edge_arr_base[g.num_edges()-1]);
+  uint64_t addr1s = reinterpret_cast<uint64_t>(&index_arr_base[0]);
+  uint64_t addr1e = reinterpret_cast<uint64_t>(&index_arr_base[g.num_nodes()-1]);
+  uint64_t addr2s = reinterpret_cast<uint64_t>(&edge_arr_base[0]);
+  uint64_t addr2e = reinterpret_cast<uint64_t>(&edge_arr_base[g.num_edges()-1]);
 
-  SimUser(1, addr1s);
-  SimUser(2, addr1e);
+  std::cout << std::hex << "INDEX: " << addr1s << "," << addr1e << '\n';
+  std::cout << std::hex  << "EDGE: " << addr2s << "," << addr2e << '\n';
 
-  SimUser(3, addr2s);
-  SimUser(4, addr2e);
+  SimUser(addr1s,addr1e,1);
+  // SimUser(, 1);
+
+  SimUser(addr2s,addr2e,2);
+  // SimUser(addr2e, 2);
 
   if (g.directed()) {
     cout << "Input graph is directed but tc requires undirected" << endl;

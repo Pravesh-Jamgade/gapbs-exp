@@ -16,7 +16,7 @@
 #include "timer.h"
 #include "util.h"
 
-#include "sim_api.h"
+#include "../../magic.h"
 /*
 GAP Benchmark Suite
 Kernel: Betweenness Centrality (BC)
@@ -101,9 +101,7 @@ pvector<ScoreT> Brandes(const Graph &g, SourcePicker<Graph> &sp,
 
   uintptr_t addr3s = reinterpret_cast<uintptr_t>(&scores[0]);
   uintptr_t addr3e = reinterpret_cast<uintptr_t>(&scores[g.num_nodes()-1]);
-  SimUser(5, addr3s);
-  SimUser(6, addr3e);
-  SimUser(765, 0);
+  SimUser(addr3s,addr3e,3);
 
   pvector<CountT> path_counts(g.num_nodes());
   Bitmap succ(g.num_edges_directed());
@@ -253,10 +251,8 @@ int main(int argc, char* argv[]) {
   uintptr_t addr2s = reinterpret_cast<uintptr_t>(&edge_arr_base[0]);
   uintptr_t addr2e = reinterpret_cast<uintptr_t>(g.get_end_addr_edge_arr());
 
-  SimUser(1, addr1s);
-  SimUser(2, addr1e);
-  SimUser(3, addr2s);
-  SimUser(4, addr2e);
+  SimUser(addr1s,addr1e,1);
+  SimUser(addr2s,addr2e,2);
 
   SourcePicker<Graph> sp(g, cli.start_vertex());
   auto BCBound =

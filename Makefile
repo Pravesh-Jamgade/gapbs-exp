@@ -1,8 +1,6 @@
-TARGET=tc
-IN=5
-include ../shared/Makefile.shared
+# See LICENSE.txt for license details.
 
-CXX_FLAGS += -std=c++17 -Wall
+CXX_FLAGS += -std=c++11 -O3 -Wall
 PAR_FLAG = -fopenmp
 
 ifneq (,$(findstring icpc,$(CXX)))
@@ -10,7 +8,7 @@ ifneq (,$(findstring icpc,$(CXX)))
 endif
 
 ifneq (,$(findstring sunCC,$(CXX)))
-	CXX_FLAGS = -std=c++11  -m64 -xtarget=native
+	CXX_FLAGS = -std=c++11 -xO3 -m64 -xtarget=native
 	PAR_FLAG = -xopenmp
 endif
 
@@ -18,21 +16,26 @@ ifneq ($(SERIAL), 1)
 	CXX_FLAGS += $(PAR_FLAG)
 endif
 
-$(TARGET): $(TARGET).o
-	$(CXX) $(CXX_FLAGS) src/$(TARGET).o -lm $(SNIPER_LDFLAGS) -o $(TARGET)
+KERNELS = bc bfs cc cc_sv pr pr_spmv sssp tc
+SUITE = $(KERNELS) converter
 
-$(TARGET).o:
-	$(CXX) $(CXX_FLAGS) $(SNIPER_CFLAGS) -c src/$(TARGET).cc -o src/$(TARGET).o -g
+.PHONY: all
+all: $(SUITE)
 
-run_$(TARGET):
-	@echo "running snipper"
-	../../run-sniper -v -n 1 -c gainestown  -- ./$(TARGET) -g $(IN) -n 1 
+% : src/%.cc src/*.h
+	$(CXX) $(CXX_FLAGS) $< -o $@
 
+$(TARGET):
+	$(CXX) $(CXX_FLAGS) $(TARGET).c -o $(TARGET)
+
+# Testing
 include test/test.mk
 
 # Benchmark Automation
 include benchmark/bench.mk
 
+
+.PHONY: clean
 clean:
-	rm -rf $(SUITE) *stat test/out/* *.db $(TARGET) *.csv sim.* *.log *.out *.png *.o topo.* power.* $(CLEAN_EXA)
-CLEAN_EXTRA=viz
+	rm -f $(SUITE) test/out/*
+	rm -f src/*.o

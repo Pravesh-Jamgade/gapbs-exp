@@ -13,7 +13,6 @@
 #include "pvector.h"
 #include "sliding_queue.h"
 #include "timer.h"
-#include "sim_api.h"
 #include "log.h"
 
 /*
