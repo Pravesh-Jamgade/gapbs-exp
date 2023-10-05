@@ -40,7 +40,6 @@ using namespace std;
 
 // Place nodes u and v in same component of lower component ID
 void Link(NodeID u, NodeID v, pvector<NodeID>& comp) {
-  //SimRoiStart();
   NodeID p1 = comp[u];
   NodeID p2 = comp[v];
   while (p1 != p2) {
@@ -54,20 +53,17 @@ void Link(NodeID u, NodeID v, pvector<NodeID>& comp) {
     p1 = comp[comp[high]];
     p2 = comp[low];
   }
-  //SimRoiEnd();
 }
 
 
 // Reduce depth of tree for each component to 1 by crawling up parents
 void Compress(const Graph &g, pvector<NodeID>& comp) {
-  //SimRoiStart();
   #pragma omp parallel for schedule(dynamic, 16384)
   for (NodeID n = 0; n < g.num_nodes(); n++) {
     while (comp[n] != comp[comp[n]]) {
       comp[n] = comp[comp[n]];
     }
   }
-  //SimRoiEnd();
 }
 
 
@@ -78,14 +74,10 @@ NodeID SampleFrequentElement(const pvector<NodeID>& comp,
   // Sample elements from 'comp'
   std::mt19937 gen;
   std::uniform_int_distribution<NodeID> distribution(0, comp.size() - 1);
-  
-  //SimRoiStart();
   for (NodeID i = 0; i < num_samples; i++) {
     NodeID n = distribution(gen);
     sample_counts[comp[n]]++;
   }
-  //SimRoiEnd();
-
   // Find most frequent element in samples (estimate of most frequent overall)
   auto most_frequent = std::max_element(
     sample_counts.begin(), sample_counts.end(),
@@ -109,7 +101,6 @@ pvector<NodeID> Afforest(const Graph &g, int32_t neighbor_rounds = 2) {
   
   
   // Initialize each node to a single-node self-pointing tree
-  //SimRoiStart();
   #pragma omp parallel for
   for (NodeID n = 0; n < g.num_nodes(); n++)
     comp[n] = n;
@@ -127,13 +118,11 @@ pvector<NodeID> Afforest(const Graph &g, int32_t neighbor_rounds = 2) {
     }
     Compress(g, comp);
   }
-  //SimRoiEnd();
 
   // Sample 'comp' to find the most frequent element -- due to prior
   // compression, this value represents the largest intermediate component
   NodeID c = SampleFrequentElement(comp);
 
-  //SimRoiStart();
   // Final 'link' phase over remaining edges (excluding largest component)
   if (!g.directed()) {
     #pragma omp parallel for schedule(dynamic, 16384)
@@ -160,11 +149,8 @@ pvector<NodeID> Afforest(const Graph &g, int32_t neighbor_rounds = 2) {
       }
     }
   }
-
-  //SimRoiEnd();
   // Finally, 'compress' for final convergence
   Compress(g, comp);
-
   return comp;
 }
 
@@ -280,6 +266,5 @@ int main(int argc, char* argv[]) {
 
   auto CCBound = [](const Graph& gr){ return Afforest(gr); };
   BenchmarkKernel(cli, g, CCBound, PrintCompStats, CCVerifier);
-
   return 0;
 }

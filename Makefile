@@ -2,6 +2,7 @@
 
 CXX_FLAGS += -std=c++11 -O3 -Wall
 PAR_FLAG = -fopenmp
+TARGET=cc
 
 ifneq (,$(findstring icpc,$(CXX)))
 	PAR_FLAG = -openmp
@@ -26,7 +27,8 @@ all: $(SUITE)
 	$(CXX) $(CXX_FLAGS) $< -o $@
 
 $(TARGET):
-	$(CXX) $(CXX_FLAGS) $(TARGET).c -o $(TARGET)
+	echo $(TARGET)
+	$(CXX) $(CXX_FLAGS) src/$(TARGET).cc -o $(TARGET)
 
 # Testing
 include test/test.mk
