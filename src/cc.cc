@@ -97,8 +97,8 @@ pvector<NodeID> Afforest(const Graph &g, int32_t neighbor_rounds = 2) {
   //*
   uint64_t addr3s = reinterpret_cast<uint64_t>(&comp[0]);
   uint64_t addr3e = reinterpret_cast<uint64_t>(&comp[g.num_nodes()-1]);
+  std::cout << std::hex  << "PROPERTY: " << addr3s << "," << addr3e << '\n';
   SimUser(addr3s,addr3e,3);
-  
   
   // Initialize each node to a single-node self-pointing tree
   #pragma omp parallel for
