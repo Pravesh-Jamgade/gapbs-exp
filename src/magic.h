@@ -1,3 +1,4 @@
+
 #define SimMagic2(cmd, arg0, arg1) ({        \
    unsigned long _cmd = (cmd), _arg0 = (arg0), _arg1 = (arg1), _res; \
    __asm__ __volatile__ (                    \
@@ -12,5 +13,9 @@
    : "%" MAGIC_REG_B, "%" MAGIC_REG_C ); /* clobbered */ \
    _res;                                     \
 })
+
+#define MAGIC_REG_A "rax"
+#define MAGIC_REG_B "rbx"
+#define MAGIC_REG_C "rcx"
 
 #define SimUser(a,b,c) SimMagic2(a,b,c)

@@ -15,7 +15,7 @@
 #include "pvector.h"
 #include "timer.h"
 
-#include "../../magic.h"
+#include "magic.h"
 /*
 GAP Benchmark Suite
 Kernel: Single-source Shortest Paths (SSSP)
