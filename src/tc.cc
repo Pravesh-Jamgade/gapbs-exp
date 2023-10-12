@@ -20,7 +20,7 @@
 #include <set>
 #include <unistd.h> 
 
-#include "../../magic.h"
+#include "magic.h"
 /*
 GAP Benchmark Suite
 Kernel: Triangle Counting (TC)

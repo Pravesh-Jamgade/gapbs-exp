@@ -16,7 +16,7 @@
 #include "timer.h"
 #include "util.h"
 
-#include "../../magic.h"
+#include "magic.h"
 /*
 GAP Benchmark Suite
 Kernel: Betweenness Centrality (BC)

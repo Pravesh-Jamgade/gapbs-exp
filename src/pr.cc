@@ -10,7 +10,7 @@
 #include "command_line.h"
 #include "graph.h"
 #include "pvector.h"
-#include "../../magic.h"
+#include "magic.h"
 
 /*
 GAP Benchmark Suite
