@@ -1,6 +1,6 @@
 # See LICENSE.txt for license details.
 
-CXX_FLAGS += -std=c++11 -O3 -Wall
+CXX_FLAGS += -std=c++11 -O3 -Wall -DSINGLETHREADED
 PAR_FLAG = -fopenmp
 TARGET=cc
 
@@ -16,6 +16,8 @@ endif
 ifneq ($(SERIAL), 1)
 	CXX_FLAGS += $(PAR_FLAG)
 endif
+
+PAR_FLAG += #dddddddddddddddddddddddddddd
 
 KERNELS = bc bfs cc cc_sv pr pr_spmv sssp tc
 SUITE = $(KERNELS) converter

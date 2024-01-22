@@ -210,7 +210,7 @@ int main(int argc, char* argv[]) {
   uintptr_t addr1s = reinterpret_cast<uintptr_t>(&index_arr_base[0]);
   uintptr_t addr1e = reinterpret_cast<uintptr_t>(&index_arr_base[g.num_nodes()-1]);
   uintptr_t addr2s = reinterpret_cast<uintptr_t>(&edge_arr_base[0]);
-  uintptr_t addr2e = reinterpret_cast<uintptr_t>(&edge_arr_base[g.num_edges()-1]);
+  uintptr_t addr2e = reinterpret_cast<uintptr_t>(g.get_end_addr_edge_arr());
 
   SimUser(addr1s, addr2e, 1);
   // SimUser(2, addr1e);

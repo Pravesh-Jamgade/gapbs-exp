@@ -15,6 +15,7 @@
 #include "timer.h"
 #include "log.h"
 
+#include "magic.h"
 /*
 GAP Benchmark Suite
 Kernel: Breadth-First Search (BFS)
@@ -125,6 +126,12 @@ pvector<NodeID> DOBFS(const Graph &g, NodeID source, int alpha = 15,
   Timer t;
   t.Start();
   pvector<NodeID> parent = InitParent(g);
+
+  uint64_t addr3s = reinterpret_cast<uint64_t>(&parent[0]);
+  uint64_t addr3e = reinterpret_cast<uint64_t>(&parent[g.num_nodes()-1]);
+  
+  SimUser(addr3s,addr3e,3);
+
   t.Stop();
   PrintStep("i", t.Seconds());
   parent[source] = source;
@@ -254,6 +261,22 @@ int main(int argc, char* argv[]) {
   Builder b(cli);
   Graph g = b.MakeGraph();
   
+  NodeID** index_arr_base = g.get_index_array();
+  NodeID* edge_arr_base = *index_arr_base;
+
+  uint64_t addr1s = reinterpret_cast<uint64_t>(&index_arr_base[0]);
+  uint64_t addr1e = reinterpret_cast<uint64_t>(&index_arr_base[g.num_nodes()-1]);
+  uint64_t addr2s = reinterpret_cast<uint64_t>(&edge_arr_base[0]);
+  uint64_t addr2e = reinterpret_cast<uint64_t>(g.get_end_addr_edge_arr());
+
+  SimUser(addr1s,addr1e,1);
+  // SimUser(, 1);
+
+  SimUser(addr2s,addr2e,2);
+
+  std::cout << std::hex << "INDEX: " << addr1s << "," << addr1e << '\n';
+  std::cout << std::hex  << "EDGE: " << addr2s << "," << addr2e << '\n';
+
   SourcePicker<Graph> sp(g, cli.start_vertex());
   auto BFSBound = [&sp] (const Graph &g) { return DOBFS(g, sp.PickNext()); };
   SourcePicker<Graph> vsp(g, cli.start_vertex());
