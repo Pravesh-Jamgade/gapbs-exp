@@ -152,7 +152,7 @@ int main(int argc, char* argv[]) {
   uint64_t addr1s = reinterpret_cast<uint64_t>(&index_arr_base[0]);
   uint64_t addr1e = reinterpret_cast<uint64_t>(&index_arr_base[g.num_nodes()-1]);
   uint64_t addr2s = reinterpret_cast<uint64_t>(&edge_arr_base[0]);
-  uint64_t addr2e = reinterpret_cast<uint64_t>(&edge_arr_base[g.num_edges()-1]);
+  uint64_t addr2e = reinterpret_cast<uint64_t>(g.get_end_addr_edge_arr());
 
   std::cout << std::hex << "INDEX: " << addr1s << "," << addr1e << '\n';
   std::cout << std::hex  << "EDGE: " << addr2s << "," << addr2e << '\n';
