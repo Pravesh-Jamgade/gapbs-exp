@@ -278,11 +278,12 @@ int main(int argc, char* argv[]) {
   uintptr_t addr2s = reinterpret_cast<uintptr_t>(&edge_arr_base[0]);
   uintptr_t addr2e = reinterpret_cast<uintptr_t>(g.get_end_addr_edge_arr());// last nodes offset address to edge array - first => len of edge array
 
+  SimRoiStart();
   SimUser(1, addr1s);
   SimUser(2, addr1e);
   SimUser(3, addr2s);
   SimUser(4, addr2e);
-
+  SimRoiEnd();
   auto CCBound = [](const Graph& gr){ return Afforest(gr); };
   BenchmarkKernel(cli, g, CCBound, PrintCompStats, CCVerifier);
 
