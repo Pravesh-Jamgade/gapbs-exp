@@ -58,6 +58,8 @@ void PBFS(const Graph &g, NodeID source, pvector<CountT> &path_counts,
   depth_index.push_back(queue.begin());
   queue.slide_window();
   const NodeID* g_out_start = g.out_neigh(0).begin();
+
+  SimRoiStart();
   #pragma omp parallel
   {
     NodeID depth = 0;
@@ -88,13 +90,14 @@ void PBFS(const Graph &g, NodeID source, pvector<CountT> &path_counts,
       }
     }
   }
+  SimRoiEnd();
+
   depth_index.push_back(queue.begin());
 }
 
 
 pvector<ScoreT> Brandes(const Graph &g, SourcePicker<Graph> &sp,
                         NodeID num_iters) {
-  // SimRoiStart();
   Timer t;
   t.Start();
   pvector<ScoreT> scores(g.num_nodes(), 0);
@@ -112,6 +115,8 @@ pvector<ScoreT> Brandes(const Graph &g, SourcePicker<Graph> &sp,
   t.Stop();
   PrintStep("a", t.Seconds());
   const NodeID* g_out_start = g.out_neigh(0).begin();
+
+  SimRoiStart();
   for (NodeID iter=0; iter < num_iters; iter++) {
     NodeID source = sp.PickNext();
     cout << "source: " << source << endl;
@@ -142,15 +147,25 @@ pvector<ScoreT> Brandes(const Graph &g, SourcePicker<Graph> &sp,
     t.Stop();
     PrintStep("p", t.Seconds());
   }
+  SimRoiEnd();
+
   // normalize scores
   ScoreT biggest_score = 0;
+
+  SimRoiStart();
   #pragma omp parallel for reduction(max : biggest_score)
   for (NodeID n=0; n < g.num_nodes(); n++)
     biggest_score = max(biggest_score, scores[n]);
+  
+  SimRoiEnd();
+
+  SimRoiStart();
   #pragma omp parallel for
   for (NodeID n=0; n < g.num_nodes(); n++)
     scores[n] = scores[n] / biggest_score;
   
+  SimRoiEnd();
+
   // SimRoiEnd();
   return scores;
 }

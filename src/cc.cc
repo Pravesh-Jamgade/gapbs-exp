@@ -60,14 +60,14 @@ void Link(NodeID u, NodeID v, pvector<NodeID>& comp) {
 
 // Reduce depth of tree for each component to 1 by crawling up parents
 void Compress(const Graph &g, pvector<NodeID>& comp) {
-  //SimRoiStart();
+  SimRoiStart();
   #pragma omp parallel for schedule(dynamic, 16384)
   for (NodeID n = 0; n < g.num_nodes(); n++) {
     while (comp[n] != comp[comp[n]]) {
       comp[n] = comp[comp[n]];
     }
   }
-  //SimRoiEnd();
+  SimRoiEnd();
 }
 
 
@@ -111,7 +111,7 @@ pvector<NodeID> Afforest(const Graph &g, int32_t neighbor_rounds = 2) {
   
   
   // Initialize each node to a single-node self-pointing tree
-  //SimRoiStart();
+  SimRoiStart();
   #pragma omp parallel for
   for (NodeID n = 0; n < g.num_nodes(); n++)
     comp[n] = n;
@@ -129,13 +129,13 @@ pvector<NodeID> Afforest(const Graph &g, int32_t neighbor_rounds = 2) {
     }
     Compress(g, comp);
   }
-  //SimRoiEnd();
+  SimRoiEnd();
 
   // Sample 'comp' to find the most frequent element -- due to prior
   // compression, this value represents the largest intermediate component
   NodeID c = SampleFrequentElement(comp);
 
-  //SimRoiStart();
+  SimRoiStart();
   // Final 'link' phase over remaining edges (excluding largest component)
   if (!g.directed()) {
     #pragma omp parallel for schedule(dynamic, 16384)
@@ -163,7 +163,7 @@ pvector<NodeID> Afforest(const Graph &g, int32_t neighbor_rounds = 2) {
     }
   }
 
-  //SimRoiEnd();
+  SimRoiEnd();
   // Finally, 'compress' for final convergence
   Compress(g, comp);
 
