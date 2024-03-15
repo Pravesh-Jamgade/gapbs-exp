@@ -89,10 +89,13 @@ pvector<WeightT> DeltaStep(const WGraph &g, NodeID source, WeightT delta) {
   Timer t;
   pvector<WeightT> dist(g.num_nodes(), kDistInf);
 
+  SimRoiStart();
   uintptr_t addr3s = reinterpret_cast<uintptr_t>(&dist[0]);
   uintptr_t addr3e = reinterpret_cast<uintptr_t>(&dist[g.num_nodes()-1]);
   SimUser(5, addr3s);
   SimUser(6, addr3e);
+  SimUser(765, 0);
+  SimRoiEnd();
 
   dist[source] = 0;
   pvector<NodeID> frontier(g.num_edges_directed());
@@ -101,6 +104,8 @@ pvector<WeightT> DeltaStep(const WGraph &g, NodeID source, WeightT delta) {
   size_t frontier_tails[2] = {1, 0};
   frontier[0] = source;
   t.Start();
+
+  SimRoiStart();
   #pragma omp parallel
   {
     vector<vector<NodeID> > local_bins(0);
@@ -153,6 +158,8 @@ pvector<WeightT> DeltaStep(const WGraph &g, NodeID source, WeightT delta) {
     #pragma omp single
     cout << "took " << iter << " iterations" << endl;
   }
+  SimRoiEnd();
+  
   return dist;
 }
 

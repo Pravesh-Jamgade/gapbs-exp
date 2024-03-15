@@ -14,7 +14,7 @@
 #include "graph.h"
 #include "pvector.h"
 #include "timer.h"
-
+#include "sim_api.h"
 
 /*
 GAP Benchmark Suite
@@ -48,12 +48,24 @@ using namespace std;
 // direction, so we use a min-max swap such that lower component IDs propagate
 // independent of the edge's direction.
 pvector<NodeID> ShiloachVishkin(const Graph &g) {
+
   pvector<NodeID> comp(g.num_nodes());
   #pragma omp parallel for
   for (NodeID n=0; n < g.num_nodes(); n++)
     comp[n] = n;
+  
+  SimRoiStart();
+  uintptr_t addr3s = reinterpret_cast<uintptr_t>(&comp[0]);
+  uintptr_t addr3e = reinterpret_cast<uintptr_t>(&comp[g.num_nodes()-1]);
+  SimUser(5, addr3s);
+  SimUser(6, addr3e);
+  SimUser(765, 0);
+  SimRoiEnd();
+
   bool change = true;
   int num_iter = 0;
+
+  SimRoiStart();
   while (change) {
     change = false;
     num_iter++;
@@ -79,6 +91,9 @@ pvector<NodeID> ShiloachVishkin(const Graph &g) {
       }
     }
   }
+
+  SimRoiEnd();
+
   cout << "Shiloach-Vishkin took " << num_iter << " iterations" << endl;
   return comp;
 }
@@ -156,6 +171,22 @@ int main(int argc, char* argv[]) {
     return -1;
   Builder b(cli);
   Graph g = b.MakeGraph();
+
+  NodeID** index_arr_base = g.get_index_array();
+  NodeID* edge_arr_base = g.get_neighbor_array();
+
+  SimRoiStart();
+  uintptr_t addr1s = reinterpret_cast<uintptr_t>(&index_arr_base[0]);
+  uintptr_t addr1e = reinterpret_cast<uintptr_t>(&index_arr_base[g.num_nodes()-1]);
+  uintptr_t addr2s = reinterpret_cast<uintptr_t>(&edge_arr_base[0]);
+  uintptr_t addr2e = reinterpret_cast<uintptr_t>(g.get_end_addr_edge_arr());
+
+  SimUser(1, addr1s);
+  SimUser(2, addr1e);
+  SimUser(3, addr2s);
+  SimUser(4, addr2e);
+  SimRoiEnd();
+
   BenchmarkKernel(cli, g, ShiloachVishkin, PrintCompStats, CCVerifier);
   return 0;
 }

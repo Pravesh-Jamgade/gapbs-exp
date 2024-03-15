@@ -54,12 +54,17 @@ using namespace std;
 size_t OrderedCount(const Graph &g) {
   size_t total = 0;
 
+  SimRoiStart();
+  
   NodeID addr3s = reinterpret_cast<uintptr_t>(&total);
   NodeID addr3e = reinterpret_cast<uintptr_t>(&total);
   SimUser(5, addr3s);
   SimUser(6, addr3e);
   SimUser(765, 0);
 
+  SimRoiEnd();
+
+  SimRoiStart();
   #pragma omp parallel for reduction(+ : total) schedule(dynamic, 64)
   for (NodeID u=0; u < g.num_nodes(); u++) {
     for (NodeID v : g.out_neigh(u)) {
@@ -76,6 +81,8 @@ size_t OrderedCount(const Graph &g) {
       }
     }
   }
+  SimRoiEnd();
+
   return total;
 }
 
@@ -143,10 +150,11 @@ int main(int argc, char* argv[]) {
     return -1;
   Builder b(cli);
   Graph g = b.MakeGraph();
-  
+
   NodeID** index_arr_base = g.get_index_array();
   NodeID* edge_arr_base = *index_arr_base;
 
+  SimRoiStart();
   uintptr_t addr1s = reinterpret_cast<uintptr_t>(&index_arr_base[0]);
   uintptr_t addr1e = reinterpret_cast<uintptr_t>(&index_arr_base[g.num_nodes()-1]);
   uintptr_t addr2s = reinterpret_cast<uintptr_t>(&edge_arr_base[0]);
@@ -154,9 +162,9 @@ int main(int argc, char* argv[]) {
 
   SimUser(1, addr1s);
   SimUser(2, addr1e);
-
   SimUser(3, addr2s);
   SimUser(4, addr2e);
+  SimRoiEnd();
 
   if (g.directed()) {
     cout << "Input graph is directed but tc requires undirected" << endl;

@@ -40,7 +40,7 @@ using namespace std;
 
 // Place nodes u and v in same component of lower component ID
 void Link(NodeID u, NodeID v, pvector<NodeID>& comp) {
-  //SimRoiStart();
+  SimRoiStart();
   NodeID p1 = comp[u];
   NodeID p2 = comp[v];
   while (p1 != p2) {
@@ -54,7 +54,7 @@ void Link(NodeID u, NodeID v, pvector<NodeID>& comp) {
     p1 = comp[comp[high]];
     p2 = comp[low];
   }
-  //SimRoiEnd();
+  SimRoiEnd();
 }
 
 
@@ -79,18 +79,21 @@ NodeID SampleFrequentElement(const pvector<NodeID>& comp,
   std::mt19937 gen;
   std::uniform_int_distribution<NodeID> distribution(0, comp.size() - 1);
   
-  //SimRoiStart();
+  SimRoiStart();
+
   for (NodeID i = 0; i < num_samples; i++) {
     NodeID n = distribution(gen);
     sample_counts[comp[n]]++;
   }
-  //SimRoiEnd();
 
   // Find most frequent element in samples (estimate of most frequent overall)
   auto most_frequent = std::max_element(
     sample_counts.begin(), sample_counts.end(),
     [](const kvp_type& a, const kvp_type& b) { return a.second < b.second; });
   float frac_of_graph = static_cast<float>(most_frequent->second) / num_samples;
+
+  SimRoiEnd();
+
   std::cout
     << "Skipping largest intermediate component (ID: " << most_frequent->first
     << ", approx. " << static_cast<int>(frac_of_graph * 100)
@@ -102,20 +105,21 @@ NodeID SampleFrequentElement(const pvector<NodeID>& comp,
 pvector<NodeID> Afforest(const Graph &g, int32_t neighbor_rounds = 2) {
   pvector<NodeID> comp(g.num_nodes());
 
-  //*
+  // Initialize each node to a single-node self-pointing tree
+  #pragma omp parallel for
+  for (NodeID n = 0; n < g.num_nodes(); n++)
+    comp[n] = n;
+
+  SimRoiStart();
+  // ***
   NodeID addr3s = reinterpret_cast<uintptr_t>(&comp[0]);
   NodeID addr3e = reinterpret_cast<uintptr_t>(&comp[g.num_nodes()-1]);
   SimUser(5, addr3s);
   SimUser(6, addr3e);
   SimUser(765, 0);
-  
-  
-  // Initialize each node to a single-node self-pointing tree
-  SimRoiStart();
-  #pragma omp parallel for
-  for (NodeID n = 0; n < g.num_nodes(); n++)
-    comp[n] = n;
+  SimRoiEnd();
 
+  SimRoiStart();
   // Process a sparse sampled subgraph first for approximating components.
   // Sample by processing a fixed number of neighbors for each node (see paper)
   for (int r = 0; r < neighbor_rounds; ++r) {
@@ -162,8 +166,8 @@ pvector<NodeID> Afforest(const Graph &g, int32_t neighbor_rounds = 2) {
       }
     }
   }
-
   SimRoiEnd();
+
   // Finally, 'compress' for final convergence
   Compress(g, comp);
 
@@ -284,6 +288,7 @@ int main(int argc, char* argv[]) {
   SimUser(3, addr2s);
   SimUser(4, addr2e);
   SimRoiEnd();
+
   auto CCBound = [](const Graph& gr){ return Afforest(gr); };
   BenchmarkKernel(cli, g, CCBound, PrintCompStats, CCVerifier);
 
