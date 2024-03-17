@@ -19,3 +19,5 @@
 #define MAGIC_REG_C "rcx"
 
 #define SimUser(a,b,c) SimMagic2(a,b,c)
+#define SimRoiStart() SimMagic2(8,8,8)
+#define SimRoiEnd() SimMagic2(9,9,9)
