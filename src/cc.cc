@@ -98,13 +98,18 @@ pvector<NodeID> Afforest(const Graph &g, int32_t neighbor_rounds = 2) {
   uint64_t addr3s = reinterpret_cast<uint64_t>(&comp[0]);
   uint64_t addr3e = reinterpret_cast<uint64_t>(&comp[g.num_nodes()-1]);
   std::cout << std::hex  << "PROPERTY: " << addr3s << "," << addr3e << '\n';
+
+  SimRoiStart();
   SimUser(addr3s,addr3e,3);
-  
+  SimRoiEnd();
+
   // Initialize each node to a single-node self-pointing tree
   #pragma omp parallel for
   for (NodeID n = 0; n < g.num_nodes(); n++)
     comp[n] = n;
 
+
+  SimRoiStart();
   // Process a sparse sampled subgraph first for approximating components.
   // Sample by processing a fixed number of neighbors for each node (see paper)
   for (int r = 0; r < neighbor_rounds; ++r) {
@@ -151,6 +156,9 @@ pvector<NodeID> Afforest(const Graph &g, int32_t neighbor_rounds = 2) {
   }
   // Finally, 'compress' for final convergence
   Compress(g, comp);
+
+  SimRoiEnd();
+
   return comp;
 }
 
@@ -261,8 +269,10 @@ int main(int argc, char* argv[]) {
   std::cout << std::hex << "INDEX: " << addr1s << "," << addr1e << '\n';
   std::cout << std::hex  << "EDGE: " << addr2s << "," << addr2e << '\n';
 
+  SimRoiStart();
   SimUser(addr1s,addr1e,1);
   SimUser(addr2s,addr2e,2);
+  SimRoiEnd();
 
   auto CCBound = [](const Graph& gr){ return Afforest(gr); };
   BenchmarkKernel(cli, g, CCBound, PrintCompStats, CCVerifier);

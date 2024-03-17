@@ -130,7 +130,9 @@ pvector<NodeID> DOBFS(const Graph &g, NodeID source, int alpha = 15,
   uint64_t addr3s = reinterpret_cast<uint64_t>(&parent[0]);
   uint64_t addr3e = reinterpret_cast<uint64_t>(&parent[g.num_nodes()-1]);
   
+  SimRoiStart();
   SimUser(addr3s,addr3e,3);
+  SimRoiEnd();
 
   t.Stop();
   PrintStep("i", t.Seconds());
@@ -144,6 +146,9 @@ pvector<NodeID> DOBFS(const Graph &g, NodeID source, int alpha = 15,
   front.reset();
   int64_t edges_to_check = g.num_edges_directed();
   int64_t scout_count = g.out_degree(source);
+
+  SimRoiStart();
+
   while (!queue.empty()) {
     if (scout_count > edges_to_check / alpha) {
       int64_t awake_count, old_awake_count;
@@ -176,6 +181,9 @@ pvector<NodeID> DOBFS(const Graph &g, NodeID source, int alpha = 15,
   for (NodeID n = 0; n < g.num_nodes(); n++)
     if (parent[n] < -1)
       parent[n] = -1;
+
+  SimRoiEnd();
+  
   return parent;
 }
 
@@ -269,10 +277,10 @@ int main(int argc, char* argv[]) {
   uint64_t addr2s = reinterpret_cast<uint64_t>(&edge_arr_base[0]);
   uint64_t addr2e = reinterpret_cast<uint64_t>(g.get_end_addr_edge_arr());
 
+  SimRoiStart();
   SimUser(addr1s,addr1e,1);
-  // SimUser(, 1);
-
   SimUser(addr2s,addr2e,2);
+  SimRoiEnd();
 
   std::cout << std::hex << "INDEX: " << addr1s << "," << addr1e << '\n';
   std::cout << std::hex  << "EDGE: " << addr2s << "," << addr2e << '\n';

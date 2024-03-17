@@ -15,7 +15,7 @@
 #include "pvector.h"
 #include "timer.h"
 
-
+#include "magic.h"
 /*
 GAP Benchmark Suite
 Kernel: Connected Components (CC)
@@ -49,6 +49,16 @@ using namespace std;
 // independent of the edge's direction.
 pvector<NodeID> ShiloachVishkin(const Graph &g) {
   pvector<NodeID> comp(g.num_nodes());
+
+  uint64_t addr3s = reinterpret_cast<uint64_t>(&comp[0]);
+  uint64_t addr3e = reinterpret_cast<uint64_t>(&comp[g.num_nodes()-1]);
+  std::cout << std::hex  << "PROPERTY: " << addr3s << "," << addr3e << '\n';
+
+  SimRoiStart();
+  SimUser(addr3s,addr3e,3);
+  SimRoiEnd();
+  
+  SimRoiStart();
   #pragma omp parallel for
   for (NodeID n=0; n < g.num_nodes(); n++)
     comp[n] = n;
@@ -79,6 +89,8 @@ pvector<NodeID> ShiloachVishkin(const Graph &g) {
       }
     }
   }
+  SimRoiEnd();
+
   cout << "Shiloach-Vishkin took " << num_iter << " iterations" << endl;
   return comp;
 }
@@ -156,6 +168,23 @@ int main(int argc, char* argv[]) {
     return -1;
   Builder b(cli);
   Graph g = b.MakeGraph();
+
+  NodeID** index_arr_base = g.get_index_array();
+  NodeID* edge_arr_base = g.get_neighbor_array();
+  
+  uint64_t addr1s = reinterpret_cast<uint64_t>(&index_arr_base[0]);
+  uint64_t addr1e = reinterpret_cast<uint64_t>(&index_arr_base[g.num_nodes()-1]);
+  uint64_t addr2s = reinterpret_cast<uint64_t>(&edge_arr_base[0]);
+  uint64_t addr2e = reinterpret_cast<uint64_t>(g.get_end_addr_edge_arr());// last nodes offset address to edge array - first => len of edge array
+
+  std::cout << std::hex << "INDEX: " << addr1s << "," << addr1e << '\n';
+  std::cout << std::hex  << "EDGE: " << addr2s << "," << addr2e << '\n';
+
+  SimRoiStart();
+  SimUser(addr1s,addr1e,1);
+  SimUser(addr2s,addr2e,2);
+  SimRoiEnd();
+
   BenchmarkKernel(cli, g, ShiloachVishkin, PrintCompStats, CCVerifier);
   return 0;
 }

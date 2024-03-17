@@ -104,10 +104,14 @@ bool WorthRelabelling(const Graph &g) {
 
 // uses heuristic to see if worth relabeling
 size_t Hybrid(const Graph &g) {
+  SimRoiStart();
+  
   if (WorthRelabelling(g))
     return OrderedCount(Builder::RelabelByDegree(g));
   else
     return OrderedCount(g);
+
+  SimRoiEnd();
 }
 
 
@@ -157,11 +161,10 @@ int main(int argc, char* argv[]) {
   std::cout << std::hex << "INDEX: " << addr1s << "," << addr1e << '\n';
   std::cout << std::hex  << "EDGE: " << addr2s << "," << addr2e << '\n';
 
+  SimRoiStart();
   SimUser(addr1s,addr1e,1);
-  // SimUser(, 1);
-
   SimUser(addr2s,addr2e,2);
-  // SimUser(addr2e, 2);
+  SimRoiEnd();
 
   if (g.directed()) {
     cout << "Input graph is directed but tc requires undirected" << endl;

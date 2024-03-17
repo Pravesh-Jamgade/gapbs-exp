@@ -11,6 +11,7 @@
 #include "graph.h"
 #include "pvector.h"
 
+#include "magic.h"
 
 /*
 GAP Benchmark Suite
@@ -38,6 +39,15 @@ pvector<ScoreT> PageRankPull(const Graph &g, int max_iters,
   const ScoreT base_score = (1.0f - kDamp) / g.num_nodes();
   pvector<ScoreT> scores(g.num_nodes(), init_score);
   pvector<ScoreT> outgoing_contrib(g.num_nodes());
+
+  uintptr_t addr3s = reinterpret_cast<uintptr_t>(&scores[0]);
+  uintptr_t addr3e = reinterpret_cast<uintptr_t>(&scores[g.num_nodes()-1]);
+
+  SimRoiStart();
+  SimUser(addr3s,addr3e,3);
+  SimRoiEnd();
+
+  SimRoiStart();
   for (int iter=0; iter < max_iters; iter++) {
     double error = 0;
     #pragma omp parallel for
@@ -56,6 +66,8 @@ pvector<ScoreT> PageRankPull(const Graph &g, int max_iters,
     if (error < epsilon)
       break;
   }
+  SimRoiEnd();
+
   return scores;
 }
 
@@ -100,6 +112,20 @@ int main(int argc, char* argv[]) {
     return -1;
   Builder b(cli);
   Graph g = b.MakeGraph();
+
+  NodeID** index_arr_base = g.get_index_array();
+  NodeID* edge_arr_base = *index_arr_base;
+
+  uintptr_t addr1s = reinterpret_cast<uintptr_t>(&index_arr_base[0]);
+  uintptr_t addr1e = reinterpret_cast<uintptr_t>(&index_arr_base[g.num_nodes()-1]);
+  uintptr_t addr2s = reinterpret_cast<uintptr_t>(&edge_arr_base[0]);
+  uintptr_t addr2e = reinterpret_cast<uintptr_t>(g.get_end_addr_edge_arr());
+
+  SimRoiStart();
+  SimUser(addr1s,addr1e,1);
+  SimUser(addr2s,addr2e,2);
+  SimRoiEnd();
+
   auto PRBound = [&cli] (const Graph &g) {
     return PageRankPull(g, cli.max_iters(), cli.tolerance());
   };

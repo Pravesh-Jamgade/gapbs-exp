@@ -91,7 +91,10 @@ pvector<WeightT> DeltaStep(const WGraph &g, NodeID source, WeightT delta) {
 
   uintptr_t addr3s = reinterpret_cast<uintptr_t>(&dist[0]);
   uintptr_t addr3e = reinterpret_cast<uintptr_t>(&dist[g.num_nodes()-1]);
+  
+  SimRoiStart();
   SimUser(addr3s, addr3e, 3);
+  SimRoiEnd();
 
   dist[source] = 0;
   pvector<NodeID> frontier(g.num_edges_directed());
@@ -100,6 +103,8 @@ pvector<WeightT> DeltaStep(const WGraph &g, NodeID source, WeightT delta) {
   size_t frontier_tails[2] = {1, 0};
   frontier[0] = source;
   t.Start();
+
+  SimRoiStart();
   #pragma omp parallel
   {
     vector<vector<NodeID> > local_bins(0);
@@ -152,6 +157,8 @@ pvector<WeightT> DeltaStep(const WGraph &g, NodeID source, WeightT delta) {
     #pragma omp single
     cout << "took " << iter << " iterations" << endl;
   }
+  SimRoiEnd();
+
   return dist;
 }
 
@@ -212,11 +219,11 @@ int main(int argc, char* argv[]) {
   uintptr_t addr2s = reinterpret_cast<uintptr_t>(&edge_arr_base[0]);
   uintptr_t addr2e = reinterpret_cast<uintptr_t>(g.get_end_addr_edge_arr());
 
+  SimRoiStart();
   SimUser(addr1s, addr1e, 1);
-  // SimUser(2, addr1e);
   SimUser(addr2s, addr2e, 2);
-  // SimUser(4, addr2e);
-  
+  SimRoiEnd();
+
   SourcePicker<WGraph> sp(g, cli.start_vertex());
   auto SSSPBound = [&sp, &cli] (const WGraph &g) {
     return DeltaStep(g, sp.PickNext(), cli.delta());

@@ -58,6 +58,9 @@ void PBFS(const Graph &g, NodeID source, pvector<CountT> &path_counts,
   depth_index.push_back(queue.begin());
   queue.slide_window();
   const NodeID* g_out_start = g.out_neigh(0).begin();
+
+  
+
   #pragma omp parallel
   {
     NodeID depth = 0;
@@ -89,19 +92,24 @@ void PBFS(const Graph &g, NodeID source, pvector<CountT> &path_counts,
     }
   }
   depth_index.push_back(queue.begin());
+
+  
+
 }
 
 
 pvector<ScoreT> Brandes(const Graph &g, SourcePicker<Graph> &sp,
                         NodeID num_iters) {
-  // SimRoiStart();
   Timer t;
   t.Start();
   pvector<ScoreT> scores(g.num_nodes(), 0);
 
   uintptr_t addr3s = reinterpret_cast<uintptr_t>(&scores[0]);
   uintptr_t addr3e = reinterpret_cast<uintptr_t>(&scores[g.num_nodes()-1]);
+
+  SimRoiStart();
   SimUser(addr3s,addr3e,3);
+  SimRoiEnd();
 
   pvector<CountT> path_counts(g.num_nodes());
   Bitmap succ(g.num_edges_directed());
@@ -110,6 +118,8 @@ pvector<ScoreT> Brandes(const Graph &g, SourcePicker<Graph> &sp,
   t.Stop();
   PrintStep("a", t.Seconds());
   const NodeID* g_out_start = g.out_neigh(0).begin();
+
+  SimRoiStart();
   for (NodeID iter=0; iter < num_iters; iter++) {
     NodeID source = sp.PickNext();
     cout << "source: " << source << endl;
@@ -137,9 +147,12 @@ pvector<ScoreT> Brandes(const Graph &g, SourcePicker<Graph> &sp,
         scores[u] += delta_u;
       }
     }
+    SimRoiEnd();
+
     t.Stop();
     PrintStep("p", t.Seconds());
   }
+
   // normalize scores
   ScoreT biggest_score = 0;
   #pragma omp parallel for reduction(max : biggest_score)
@@ -148,8 +161,7 @@ pvector<ScoreT> Brandes(const Graph &g, SourcePicker<Graph> &sp,
   #pragma omp parallel for
   for (NodeID n=0; n < g.num_nodes(); n++)
     scores[n] = scores[n] / biggest_score;
-  
-  // SimRoiEnd();
+
   return scores;
 }
 
@@ -251,8 +263,10 @@ int main(int argc, char* argv[]) {
   uintptr_t addr2s = reinterpret_cast<uintptr_t>(&edge_arr_base[0]);
   uintptr_t addr2e = reinterpret_cast<uintptr_t>(g.get_end_addr_edge_arr());
 
+  SimRoiStart();
   SimUser(addr1s,addr1e,1);
   SimUser(addr2s,addr2e,2);
+  SimRoiEnd();
 
   SourcePicker<Graph> sp(g, cli.start_vertex());
   auto BCBound =

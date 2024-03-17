@@ -34,7 +34,6 @@ const float kDamp = 0.85;
 
 pvector<ScoreT> PageRankPullGS(const Graph &g, int max_iters,
                              double epsilon = 0) {
-  // SimRoiStart();                              
   const ScoreT init_score = 1.0f / g.num_nodes();
   const ScoreT base_score = (1.0f - kDamp) / g.num_nodes();
   pvector<ScoreT> scores(g.num_nodes(), init_score);
@@ -42,8 +41,13 @@ pvector<ScoreT> PageRankPullGS(const Graph &g, int max_iters,
 
   uintptr_t addr3s = reinterpret_cast<uintptr_t>(&scores[0]);
   uintptr_t addr3e = reinterpret_cast<uintptr_t>(&scores[g.num_nodes()-1]);
-  SimUser(addr3s,addr3e,3);
 
+  SimRoiStart();
+  SimUser(addr3s,addr3e,3);
+  SimRoiEnd();
+
+
+  SimRoiStart();
   #pragma omp parallel for
   for (NodeID n=0; n < g.num_nodes(); n++)
     outgoing_contrib[n] = init_score / g.out_degree(n);
@@ -63,7 +67,8 @@ pvector<ScoreT> PageRankPullGS(const Graph &g, int max_iters,
     if (error < epsilon)
       break;
   }
-  // SimRoiEnd();
+  SimRoiEnd();
+
   return scores;
 }
 
@@ -117,8 +122,10 @@ int main(int argc, char* argv[]) {
   uintptr_t addr2s = reinterpret_cast<uintptr_t>(&edge_arr_base[0]);
   uintptr_t addr2e = reinterpret_cast<uintptr_t>(g.get_end_addr_edge_arr());
 
+  SimRoiStart();
   SimUser(addr1s,addr1e,1);
   SimUser(addr2s,addr2e,2);
+  SimRoiEnd();
 
   auto PRBound = [&cli] (const Graph &g) {
     return PageRankPullGS(g, cli.max_iters(), cli.tolerance());
