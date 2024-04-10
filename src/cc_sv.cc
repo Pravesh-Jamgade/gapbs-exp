@@ -57,6 +57,7 @@ pvector<NodeID> ShiloachVishkin(const Graph &g) {
   SimRoiStart();
   uintptr_t addr3s = reinterpret_cast<uintptr_t>(&comp[0]);
   uintptr_t addr3e = reinterpret_cast<uintptr_t>(&comp[g.num_nodes()-1]);
+  cout << "PROPERTY: "<< addr3s << "," << addr3e << '\n';
   SimUser(5, addr3s);
   SimUser(6, addr3e);
   SimUser(765, 0);
@@ -181,6 +182,9 @@ int main(int argc, char* argv[]) {
   uintptr_t addr2s = reinterpret_cast<uintptr_t>(&edge_arr_base[0]);
   uintptr_t addr2e = reinterpret_cast<uintptr_t>(g.get_end_addr_edge_arr());
 
+  cout << "INDEX: " << addr1s << "," << addr1e << '\n';
+  cout << "EDGE: "<< addr2s << "," << addr2e << '\n';
+  
   SimUser(1, addr1s);
   SimUser(2, addr1e);
   SimUser(3, addr2s);
