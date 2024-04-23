@@ -13,6 +13,7 @@
 #include "pvector.h"
 #include "util.h"
 
+#include "magic.h"
 
 /*
 GAP Benchmark Suite
@@ -150,6 +151,29 @@ class CSRGraph {
 
       num_edges_ = (out_index_[num_nodes_] - out_index_[0]) / 2;
       out_edge_arr_len = in_edge_arr_len = out_index_[num_nodes_] - out_index_[0];
+      std::cout << "[Graph] Undirected, " << "csr_edges, " << out_edge_arr_len << '\n';
+
+      int top50=10;
+      for(int i=0; out_edge_arr_len>100 && i< out_edge_arr_len && top50; i++, top50--)
+      {
+        std::cout << "Element: " << i << ", " << out_neighbors_[i] << "," << &out_neighbors_[i] << ", " << out_edge_arr_len-i << ", " << out_neighbors_[out_edge_arr_len-i] << ", " << &out_neighbors_[out_edge_arr_len-i] << '\n';
+      }
+
+      SimRoiStart();
+
+      uint64_t addr1s = reinterpret_cast<uint64_t>(&out_index_[0]);
+      uint64_t addr1e = reinterpret_cast<uint64_t>(&out_index_[num_nodes_]);
+
+      std::cout << std::hex << "[APP] INDEX, " << addr1s << "," << addr1e << '\n';
+        SimUser(addr1s,addr1e,1);
+
+      uint64_t addr2s = reinterpret_cast<uint64_t>(&out_neighbors_[0]);
+      uint64_t addr2e = reinterpret_cast<uint64_t>(&out_neighbors_[out_edge_arr_len]);
+
+      std::cout << std::hex << "[APP] EDGE, " << addr2s << "," << addr2e << '\n';
+        SimUser(addr2s,addr2e,2);
+      
+      SimRoiEnd();
     }
 
   CSRGraph(int64_t num_nodes, DestID_** out_index, DestID_* out_neighs,
@@ -161,6 +185,30 @@ class CSRGraph {
 
       num_edges_ = out_index_[num_nodes_] - out_index_[0];
       out_edge_arr_len = in_edge_arr_len = out_index_[num_nodes_] - out_index_[0];
+      std::cout << "[Graph] Directed, " << "csr_edges, " << out_edge_arr_len << '\n';
+
+      int top50=10;
+      for(int i=0; out_edge_arr_len>100 && i< out_edge_arr_len && top50; i++, top50--)
+      { 
+        std::cout << "Element: " << i << ", " << out_neighbors_[i] << "," << &out_neighbors_[i] << ", " << out_edge_arr_len-i << ", " << out_neighbors_[out_edge_arr_len-i] << ", " << &out_neighbors_[out_edge_arr_len-i] << '\n';
+      }
+
+      SimRoiStart();
+
+      uint64_t addr1s = reinterpret_cast<uint64_t>(&out_index_[0]);
+      uint64_t addr1e = reinterpret_cast<uint64_t>(&out_index_[num_nodes_]);
+
+      std::cout << std::hex << "[APP] INDEX, " << addr1s << "," << addr1e << '\n';
+        SimUser(addr1s,addr1e,1);
+
+      uint64_t addr2s = reinterpret_cast<uint64_t>(&out_neighbors_[0]);
+      uint64_t addr2e = reinterpret_cast<uint64_t>(&out_neighbors_[out_edge_arr_len]);
+
+      std::cout << std::hex << "[APP] EDGE, " << addr2s << "," << addr2e << '\n';
+        SimUser(addr2s,addr2e,2);
+        SimUser(addr2s,addr2e,2);
+      
+      SimRoiEnd();
     }
 
   CSRGraph(CSRGraph&& other) : directed_(other.directed_),
@@ -237,7 +285,7 @@ class CSRGraph {
   }
 
   void PrintStats() const {
-    std::cout << "Graph has " << num_nodes_ << " nodes and "
+    std::cout << std::dec << "Graph has " << num_nodes_ << " nodes and "
               << num_edges_ << " ";
     if (!directed_)
       std::cout << "un";
@@ -372,9 +420,15 @@ DestID_* get_index_at(int i){
   return in_index_[i];
 }
 
+DestID_* get_start_addr_edge_arr()
+{
+  return &in_neighbors_[0];
+}
+
 DestID_* get_end_addr_edge_arr()
 {
-  return &in_neighbors_[get_edge_array_len()];
+  int temp = get_edge_array_len() - 1;
+  return (in_neighbors_+ temp);
 }
 
  private:

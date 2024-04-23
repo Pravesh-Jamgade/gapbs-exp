@@ -106,14 +106,14 @@ pvector<ScoreT> Brandes(const Graph &g, SourcePicker<Graph> &sp,
 
   SimRoiStart();
   
-  for(int i=0; i< g.num_nodes(); i++)
-  {
-    uintptr_t addr3s = reinterpret_cast<uintptr_t>(&scores[i]);
-    SimUser(addr3s,addr3s,6);
-  }
+  // for(int i=0; i< g.num_nodes(); i++)
+  // {
+  //   uintptr_t addr3s = reinterpret_cast<uintptr_t>(&scores[i]);
+  //   SimUser(addr3s,addr3s,6);
+  // }
 
   uintptr_t addr3s = reinterpret_cast<uintptr_t>(&scores[0]);
-  uintptr_t addr3e = reinterpret_cast<uintptr_t>(&scores[g.num_nodes()-1]);
+  uintptr_t addr3e = reinterpret_cast<uintptr_t>(&scores[g.num_nodes()]);
 
   std::cout << std::hex << "[APP] Property, " << addr3s << "," << addr3e << '\n';
     SimUser(addr3s,addr3e,3);
@@ -264,38 +264,24 @@ int main(int argc, char* argv[]) {
   Builder b(cli);
   Graph g = b.MakeGraph();
 
-  NodeID** index_arr_base = g.get_index_array();
-  NodeID* edge_arr_base = g.get_neighbor_array();
+  // NodeID** index_arr_base = g.get_index_array();
+  // NodeID* edge_arr_base = g.get_neighbor_array();
 
-  SimRoiStart();
+  // SimRoiStart();
 
-  for(int i=0; i< g.num_nodes(); i++)
-  {
-    uintptr_t addr1s = reinterpret_cast<uintptr_t>(&index_arr_base[i]);
-    SimUser(addr1s,addr1s,4);
-  }
+  // uintptr_t addr1s = reinterpret_cast<uintptr_t>(&index_arr_base[0]);
+  // uintptr_t addr1e = reinterpret_cast<uintptr_t>(&index_arr_base[g.num_nodes()-1]);
 
-  for(int i=0; i< g.get_edge_array_len(); i++)
-  {
-    uintptr_t addr2s = reinterpret_cast<uintptr_t>(&edge_arr_base[i]);
-    SimUser(addr2s,addr2s,5);
+  // std::cout << std::hex << "[APP] INDEX, " << addr1s << "," << addr1e << '\n';
+  //   SimUser(addr1s,addr1e,1);
 
-  }
+  // uintptr_t addr2s = reinterpret_cast<uintptr_t>(g.get_start_addr_edge_arr());
+  // uintptr_t addr2e = reinterpret_cast<uintptr_t>(g.get_end_addr_edge_arr());
 
-  // actual 
-  uintptr_t addr1s = reinterpret_cast<uintptr_t>(&index_arr_base[0]);
-  uintptr_t addr1e = reinterpret_cast<uintptr_t>(&index_arr_base[g.num_nodes()-1]);
-
-  std::cout << std::hex << "[APP] INDEX, " << addr1s << "," << addr1e << '\n';
-    SimUser(addr1s,addr1e,1);
-
-  uintptr_t addr2s = reinterpret_cast<uintptr_t>(&edge_arr_base[0]);
-  uintptr_t addr2e = reinterpret_cast<uintptr_t>(&edge_arr_base[g.get_edge_array_len()]);
-
-  std::cout << std::hex << "[APP] EDGE, " << addr2s << "," << addr2e << '\n';
-    SimUser(addr2s,addr2e,2);
+  // std::cout << std::hex << "[APP] EDGE, " << addr2s << "," << addr2e << '\n';
+  //   SimUser(addr2s,addr2e,2);
   
-  SimRoiEnd();
+  // SimRoiEnd();
 
   SourcePicker<Graph> sp(g, cli.start_vertex());
   auto BCBound =

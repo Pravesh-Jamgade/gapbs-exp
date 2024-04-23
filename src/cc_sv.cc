@@ -172,17 +172,20 @@ int main(int argc, char* argv[]) {
   NodeID** index_arr_base = g.get_index_array();
   NodeID* edge_arr_base = g.get_neighbor_array();
   
-  uint64_t addr1s = reinterpret_cast<uint64_t>(&index_arr_base[0]);
-  uint64_t addr1e = reinterpret_cast<uint64_t>(&index_arr_base[g.num_nodes()-1]);
-  uint64_t addr2s = reinterpret_cast<uint64_t>(&edge_arr_base[0]);
-  uint64_t addr2e = reinterpret_cast<uint64_t>(g.get_end_addr_edge_arr());// last nodes offset address to edge array - first => len of edge array
+ SimRoiStart();
 
-  std::cout << std::hex << "INDEX: " << addr1s << "," << addr1e << '\n';
-  std::cout << std::hex  << "EDGE: " << addr2s << "," << addr2e << '\n';
+  uintptr_t addr1s = reinterpret_cast<uintptr_t>(&index_arr_base[0]);
+  uintptr_t addr1e = reinterpret_cast<uintptr_t>(&index_arr_base[g.num_nodes()]);
 
-  SimRoiStart();
-  SimUser(addr1s,addr1e,1);
-  SimUser(addr2s,addr2e,2);
+  std::cout << std::hex << "[APP] INDEX, " << addr1s << "," << addr1e << '\n';
+    SimUser(addr1s,addr1e,1);
+
+  uintptr_t addr2s = reinterpret_cast<uintptr_t>(&edge_arr_base[0]);
+  uintptr_t addr2e = reinterpret_cast<uintptr_t>(&edge_arr_base[g.get_edge_array_len()]);
+
+  std::cout << std::hex << "[APP] EDGE, " << addr2s << "," << addr2e << '\n';
+    SimUser(addr2s,addr2e,2);
+  
   SimRoiEnd();
 
   BenchmarkKernel(cli, g, ShiloachVishkin, PrintCompStats, CCVerifier);

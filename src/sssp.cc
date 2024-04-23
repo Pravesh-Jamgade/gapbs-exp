@@ -90,7 +90,7 @@ pvector<WeightT> DeltaStep(const WGraph &g, NodeID source, WeightT delta) {
   pvector<WeightT> dist(g.num_nodes(), kDistInf);
 
   uintptr_t addr3s = reinterpret_cast<uintptr_t>(&dist[0]);
-  uintptr_t addr3e = reinterpret_cast<uintptr_t>(&dist[g.num_nodes()-1]);
+  uintptr_t addr3e = reinterpret_cast<uintptr_t>(&dist[g.num_nodes()]);
   std::cout << std::hex  << "PROPERTY: " << addr3s << "," << addr3e << '\n';
 
   SimRoiStart();
@@ -212,21 +212,21 @@ int main(int argc, char* argv[]) {
   WeightedBuilder b(cli);
   WGraph g = b.MakeGraph();
 
-  NodeWeight<int, int>** index_arr_base = g.get_index_array();
-  NodeWeight<int, int>* edge_arr_base = *index_arr_base;
+  // NodeWeight<int, int>** index_arr_base = g.get_index_array();
+  // NodeWeight<int, int>* edge_arr_base = *index_arr_base;
 
-  uintptr_t addr1s = reinterpret_cast<uintptr_t>(&index_arr_base[0]);
-  uintptr_t addr1e = reinterpret_cast<uintptr_t>(&index_arr_base[g.num_nodes()-1]);
-  uintptr_t addr2s = reinterpret_cast<uintptr_t>(&edge_arr_base[0]);
-  uintptr_t addr2e = reinterpret_cast<uintptr_t>(g.get_end_addr_edge_arr());
+  // uintptr_t addr1s = reinterpret_cast<uintptr_t>(&index_arr_base[0]);
+  // uintptr_t addr1e = reinterpret_cast<uintptr_t>(&index_arr_base[g.num_nodes()-1]);
+  // uintptr_t addr2s = reinterpret_cast<uintptr_t>(&edge_arr_base[0]);
+  // uintptr_t addr2e = reinterpret_cast<uintptr_t>(g.get_end_addr_edge_arr());
 
-  std::cout << std::hex << "INDEX: " << addr1s << "," << addr1e << '\n';
-  std::cout << std::hex  << "EDGE: " << addr2s << "," << addr2e << '\n';
+  // std::cout << std::hex << "INDEX: " << addr1s << "," << addr1e << '\n';
+  // std::cout << std::hex  << "EDGE: " << addr2s << "," << addr2e << '\n';
 
-  SimRoiStart();
-  SimUser(addr1s, addr1e, 1);
-  SimUser(addr2s, addr2e, 2);
-  SimRoiEnd();
+  // SimRoiStart();
+  // SimUser(addr1s, addr1e, 1);
+  // SimUser(addr2s, addr2e, 2);
+  // SimRoiEnd();
 
   SourcePicker<WGraph> sp(g, cli.start_vertex());
   auto SSSPBound = [&sp, &cli] (const WGraph &g) {
