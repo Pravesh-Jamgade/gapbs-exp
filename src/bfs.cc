@@ -129,6 +129,7 @@ pvector<NodeID> DOBFS(const Graph &g, NodeID source, int alpha = 15,
 
   uint64_t addr3s = reinterpret_cast<uint64_t>(&parent[0]);
   uint64_t addr3e = reinterpret_cast<uint64_t>(&parent[g.num_nodes()-1]);
+  std::cout << std::hex  << "PROPERTY: " << addr3s << "," << addr3e << '\n';
   
   SimRoiStart();
   SimUser(addr3s,addr3e,3);

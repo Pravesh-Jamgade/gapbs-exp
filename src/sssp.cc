@@ -91,7 +91,8 @@ pvector<WeightT> DeltaStep(const WGraph &g, NodeID source, WeightT delta) {
 
   uintptr_t addr3s = reinterpret_cast<uintptr_t>(&dist[0]);
   uintptr_t addr3e = reinterpret_cast<uintptr_t>(&dist[g.num_nodes()-1]);
-  
+  std::cout << std::hex  << "PROPERTY: " << addr3s << "," << addr3e << '\n';
+
   SimRoiStart();
   SimUser(addr3s, addr3e, 3);
   SimRoiEnd();
@@ -218,6 +219,9 @@ int main(int argc, char* argv[]) {
   uintptr_t addr1e = reinterpret_cast<uintptr_t>(&index_arr_base[g.num_nodes()-1]);
   uintptr_t addr2s = reinterpret_cast<uintptr_t>(&edge_arr_base[0]);
   uintptr_t addr2e = reinterpret_cast<uintptr_t>(g.get_end_addr_edge_arr());
+
+  std::cout << std::hex << "INDEX: " << addr1s << "," << addr1e << '\n';
+  std::cout << std::hex  << "EDGE: " << addr2s << "," << addr2e << '\n';
 
   SimRoiStart();
   SimUser(addr1s, addr1e, 1);

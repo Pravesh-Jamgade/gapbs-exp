@@ -346,20 +346,29 @@ class BuilderBase {
       if (cli_.filename() != "") {
         Reader<NodeID_, DestID_, WeightT_, invert> r(cli_.filename());
         if ((r.GetSuffix() == ".sg") || (r.GetSuffix() == ".wsg")) {
+          std::cout << "[Graph] .sg/.wsg\n";
           return r.ReadSerializedGraph();
         } else {
           el = r.ReadFile(needs_weights_);
+          std::cout << "[Graph] edgelist..\n";
         }
       } else if (cli_.scale() != -1) {
         Generator<NodeID_, DestID_> gen(cli_.scale(), cli_.degree());
         el = gen.GenerateEL(cli_.uniform());
+        std::cout << "[Graph] generate edge list..\n";
       }
       g = MakeGraphFromEL(el);
     }
     if (in_place_)
+    {
+      std::cout << "[Graph] in-place\n";
       return g;
+    }
     else
-      return SquishGraph(g);
+    {
+      std::cout << "[Graph] SquishGraph\n"
+;      return SquishGraph(g);
+    }
   }
 
   // Relabels (and rebuilds) graph by order of decreasing degree
