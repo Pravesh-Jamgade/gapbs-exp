@@ -149,10 +149,7 @@ class CSRGraph {
       std::cout << "[CSR2]*************************** " << directed_ << '\n';
 
       num_edges_ = (out_index_[num_nodes_] - out_index_[0]) / 2;
-      int len = in_index_[num_nodes-1] - in_index_[0];
-      std::cout << len << '\n';
-      out_edge_arr_len = in_edge_arr_len = len + in_degree(num_nodes-1);
-      std::cout << in_edge_arr_len << '\n';
+      out_edge_arr_len = in_edge_arr_len = out_index_[num_nodes_] - out_index_[0];
     }
 
   CSRGraph(int64_t num_nodes, DestID_** out_index, DestID_* out_neighs,
@@ -163,6 +160,7 @@ class CSRGraph {
       std::cout << "[CSR3]*************************** " << directed_ << '\n';
 
       num_edges_ = out_index_[num_nodes_] - out_index_[0];
+      out_edge_arr_len = in_edge_arr_len = out_index_[num_nodes_] - out_index_[0];
     }
 
   CSRGraph(CSRGraph&& other) : directed_(other.directed_),
@@ -171,7 +169,7 @@ class CSRGraph {
     in_index_(other.in_index_), in_neighbors_(other.in_neighbors_) {
 
       std::cout << "[CSR4]*************************** " << '\n';
-
+      
       other.num_edges_ = -1;
       other.num_nodes_ = -1;
       other.out_index_ = nullptr;
@@ -376,7 +374,7 @@ DestID_* get_index_at(int i){
 
 DestID_* get_end_addr_edge_arr()
 {
-  return &in_neighbors_[get_edge_array_len()-1];
+  return &in_neighbors_[get_edge_array_len()];
 }
 
  private:
