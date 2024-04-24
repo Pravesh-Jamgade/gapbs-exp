@@ -112,9 +112,9 @@ pvector<NodeID> Afforest(const Graph &g, int32_t neighbor_rounds = 2) {
 
   SimRoiStart();
   // ***
-  NodeID addr3s = reinterpret_cast<uintptr_t>(&comp[0]);
-  NodeID addr3e = reinterpret_cast<uintptr_t>(&comp[g.num_nodes()-1]);
-  cout << "PROPERTY: "<< addr3s << "," << addr3e << '\n';
+  uint64_t addr3s = reinterpret_cast<uint64_t>(&comp[0]);
+  uint64_t addr3e = reinterpret_cast<uint64_t>(&comp[g.num_nodes()]);
+  cout << std::hex << "[APP] PROPERTY: "<< addr3s << "," << addr3e << '\n';
   SimUser(5, addr3s);
   SimUser(6, addr3e);
   SimUser(765, 0);
@@ -252,8 +252,8 @@ int main(int argc, char* argv[]) {
   Builder b(cli);
   Graph g = b.MakeGraph();
 
-  NodeID** index_arr_base = g.get_index_array();
-  NodeID* edge_arr_base = g.get_neighbor_array();
+  // NodeID** index_arr_base = g.get_index_array();
+  // NodeID* edge_arr_base = g.get_neighbor_array();
   
   // fstream f;
   // string name = "index.stat";
@@ -274,23 +274,23 @@ int main(int argc, char* argv[]) {
   // cout << "----------------------------------------------\n";
   // g.PrintByCSR();
 
-  printf("[index] a=%x to b=%x\n", &index_arr_base[0], &index_arr_base[g.num_nodes()-1]);
-  printf("[edge] a=%x to b=%x\n", &edge_arr_base[0], g.get_end_addr_edge_arr());
+  // printf("[index] a=%x to b=%x\n", &index_arr_base[0], &index_arr_base[g.num_nodes()-1]);
+  // printf("[edge] a=%x to b=%x\n", &edge_arr_base[0], g.get_end_addr_edge_arr());
 
-  uintptr_t addr1s = reinterpret_cast<uintptr_t>(&index_arr_base[0]);
-  uintptr_t addr1e = reinterpret_cast<uintptr_t>(&index_arr_base[g.num_nodes()-1]);
+  // uintptr_t addr1s = reinterpret_cast<uintptr_t>(&index_arr_base[0]);
+  // uintptr_t addr1e = reinterpret_cast<uintptr_t>(&index_arr_base[g.num_nodes()-1]);
 
-  uintptr_t addr2s = reinterpret_cast<uintptr_t>(&edge_arr_base[0]);
-  uintptr_t addr2e = reinterpret_cast<uintptr_t>(g.get_end_addr_edge_arr());// last nodes offset address to edge array - first => len of edge array
+  // uintptr_t addr2s = reinterpret_cast<uintptr_t>(&edge_arr_base[0]);
+  // uintptr_t addr2e = reinterpret_cast<uintptr_t>(g.get_end_addr_edge_arr());// last nodes offset address to edge array - first => len of edge array
 
-  SimRoiStart();
-  cout << "INDEX: " << addr1s << "," << addr1e << '\n';
-  cout << "EDGE: "<< addr2s << "," << addr2e << '\n';
-  SimUser(1, addr1s);
-  SimUser(2, addr1e);
-  SimUser(3, addr2s);
-  SimUser(4, addr2e);
-  SimRoiEnd();
+  // SimRoiStart();
+  // cout << "INDEX: " << addr1s << "," << addr1e << '\n';
+  // cout << "EDGE: "<< addr2s << "," << addr2e << '\n';
+  // SimUser(1, addr1s);
+  // SimUser(2, addr1e);
+  // SimUser(3, addr2s);
+  // SimUser(4, addr2e);
+  // SimRoiEnd();
 
   auto CCBound = [](const Graph& gr){ return Afforest(gr); };
   BenchmarkKernel(cli, g, CCBound, PrintCompStats, CCVerifier);

@@ -13,7 +13,7 @@
 #include "pvector.h"
 #include "util.h"
 
-
+#include "sim_api.h"
 /*
 GAP Benchmark Suite
 Class:  CSRGraph
@@ -158,11 +158,20 @@ class CSRGraph {
         std::cout << "Element: " << i << ", " << out_neighbors_[i] << "," << &out_neighbors_[i] << ", " << out_edge_arr_len-i << ", " << out_neighbors_[out_edge_arr_len-i] << ", " << &out_neighbors_[out_edge_arr_len-i] << '\n';
       }
 
-      num_edges_ = (out_index_[num_nodes_] - out_index_[0]) / 2;
-      int len = in_index_[num_nodes-1] - in_index_[0];
-      std::cout << len << '\n';
-      out_edge_arr_len = in_edge_arr_len = len + in_degree(num_nodes-1);
-      std::cout << in_edge_arr_len << '\n';
+      SimRoiStart();
+      uint64_t addr1s = reinterpret_cast<uint64_t>(&out_index_[0]);
+      uint64_t addr1e = reinterpret_cast<uint64_t>(&out_index_[num_nodes_]);
+      uint64_t addr2s = reinterpret_cast<uint64_t>(&out_neighbors_[0]);
+      uint64_t addr2e = reinterpret_cast<uint64_t>(&out_neighbors_[num_edges_]);
+
+      std::cout << std::hex << "[APP] INDEX: " << addr1s << "," << addr1e << '\n';
+      std::cout << std::hex << "[APP] EDGE: "<< addr2s << "," << addr2e << '\n';
+
+      SimUser(1, addr1s);
+      SimUser(2, addr1e);
+      SimUser(3, addr2s);
+      SimUser(4, addr2e);
+      SimRoiEnd();
     }
 
   CSRGraph(int64_t num_nodes, DestID_** out_index, DestID_* out_neighs,
@@ -183,6 +192,20 @@ class CSRGraph {
         std::cout << "Element: " << i << ", " << out_neighbors_[i] << "," << &out_neighbors_[i] << ", " << out_edge_arr_len-i << ", " << out_neighbors_[out_edge_arr_len-i] << ", " << &out_neighbors_[out_edge_arr_len-i] << '\n';
       }
 
+      SimRoiStart();
+      uint64_t addr1s = reinterpret_cast<uint64_t>(&out_index_[0]);
+      uint64_t addr1e = reinterpret_cast<uint64_t>(&out_index_[num_nodes_]);
+      uint64_t addr2s = reinterpret_cast<uint64_t>(&out_neighbors_[0]);
+      uint64_t addr2e = reinterpret_cast<uint64_t>(&out_neighbors_[num_edges_]);
+
+      std::cout << std::hex << "[APP] INDEX: " << addr1s << "," << addr1e << '\n';
+      std::cout << std::hex << "[APP] EDGE: "<< addr2s << "," << addr2e << '\n';
+
+      SimUser(1, addr1s);
+      SimUser(2, addr1e);
+      SimUser(3, addr2s);
+      SimUser(4, addr2e);
+      SimRoiEnd();
     }
 
   CSRGraph(CSRGraph&& other) : directed_(other.directed_),
@@ -256,7 +279,7 @@ class CSRGraph {
   }
 
   void PrintStats() const {
-    std::cout << "Graph has " << num_nodes_ << " nodes and "
+    std::cout << std::dec << "Graph has " << num_nodes_ << " nodes and "
               << num_edges_ << " ";
     if (!directed_)
       std::cout << "un";

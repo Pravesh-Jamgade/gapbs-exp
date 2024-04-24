@@ -90,8 +90,9 @@ pvector<WeightT> DeltaStep(const WGraph &g, NodeID source, WeightT delta) {
   pvector<WeightT> dist(g.num_nodes(), kDistInf);
 
   SimRoiStart();
-  uintptr_t addr3s = reinterpret_cast<uintptr_t>(&dist[0]);
-  uintptr_t addr3e = reinterpret_cast<uintptr_t>(&dist[g.num_nodes()-1]);
+  uint64_t addr3s = reinterpret_cast<uint64_t>(&dist[0]);
+  uint64_t addr3e = reinterpret_cast<uint64_t>(&dist[g.num_nodes()]);
+  cout << std::hex << "[APP] PROPERTY: "<< addr3s << "," << addr3e << '\n';
   SimUser(5, addr3s);
   SimUser(6, addr3e);
   SimUser(765, 0);
@@ -212,18 +213,18 @@ int main(int argc, char* argv[]) {
   WeightedBuilder b(cli);
   WGraph g = b.MakeGraph();
 
-  NodeWeight<int, int>** index_arr_base = g.get_index_array();
-  NodeWeight<int, int>* edge_arr_base = *index_arr_base;
+  // NodeWeight<int, int>** index_arr_base = g.get_index_array();
+  // NodeWeight<int, int>* edge_arr_base = *index_arr_base;
 
-  uintptr_t addr1s = reinterpret_cast<uintptr_t>(&index_arr_base[0]);
-  uintptr_t addr1e = reinterpret_cast<uintptr_t>(&index_arr_base[g.num_nodes()-1]);
-  uintptr_t addr2s = reinterpret_cast<uintptr_t>(&edge_arr_base[0]);
-  uintptr_t addr2e = reinterpret_cast<uintptr_t>(&edge_arr_base[g.num_edges()-1]);
+  // uintptr_t addr1s = reinterpret_cast<uintptr_t>(&index_arr_base[0]);
+  // uintptr_t addr1e = reinterpret_cast<uintptr_t>(&index_arr_base[g.num_nodes()-1]);
+  // uintptr_t addr2s = reinterpret_cast<uintptr_t>(&edge_arr_base[0]);
+  // uintptr_t addr2e = reinterpret_cast<uintptr_t>(&edge_arr_base[g.num_edges()-1]);
 
-  SimUser(1, addr1s);
-  SimUser(2, addr1e);
-  SimUser(3, addr2s);
-  SimUser(4, addr2e);
+  // SimUser(1, addr1s);
+  // SimUser(2, addr1e);
+  // SimUser(3, addr2s);
+  // SimUser(4, addr2e);
   
   SourcePicker<WGraph> sp(g, cli.start_vertex());
   auto SSSPBound = [&sp, &cli] (const WGraph &g) {

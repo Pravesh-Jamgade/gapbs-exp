@@ -39,9 +39,9 @@ pvector<ScoreT> PageRankPullGS(const Graph &g, int max_iters,
   pvector<ScoreT> outgoing_contrib(g.num_nodes());
 
   SimRoiStart();
-  uintptr_t addr3s = reinterpret_cast<uintptr_t>(&scores[0]);
-  uintptr_t addr3e = reinterpret_cast<uintptr_t>(&scores[g.num_nodes()-1]);
-  cout << "PROPERTY: "<< addr3s << "," << addr3e << '\n';
+  uint64_t addr3s = reinterpret_cast<uint64_t>(&scores[0]);
+  uint64_t addr3e = reinterpret_cast<uint64_t>(&scores[g.num_nodes()]);
+  cout << std::hex << "[APP] PROPERTY: "<< addr3s << "," << addr3e << '\n';
   SimUser(5, addr3s);
   SimUser(6, addr3e);
   SimUser(765, 0);
@@ -114,21 +114,21 @@ int main(int argc, char* argv[]) {
   Builder b(cli);
   Graph g = b.MakeGraph();
 
-  NodeID** index_arr_base = g.get_index_array();
-  NodeID* edge_arr_base = *index_arr_base;
+  // NodeID** index_arr_base = g.get_index_array();
+  // NodeID* edge_arr_base = *index_arr_base;
 
-  SimRoiStart();
-  uintptr_t addr1s = reinterpret_cast<uintptr_t>(&index_arr_base[0]);
-  uintptr_t addr1e = reinterpret_cast<uintptr_t>(&index_arr_base[g.num_nodes()-1]);
-  uintptr_t addr2s = reinterpret_cast<uintptr_t>(&edge_arr_base[0]);
-  uintptr_t addr2e = reinterpret_cast<uintptr_t>(g.get_end_addr_edge_arr());
-  cout << "INDEX: " << addr1s << "," << addr1e << '\n';
-  cout << "EDGE: "<< addr2s << "," << addr2e << '\n';
-  SimUser(1, addr1s);
-  SimUser(2, addr1e);
-  SimUser(3, addr2s);
-  SimUser(4, addr2e);
-  SimRoiEnd();
+  // SimRoiStart();
+  // uintptr_t addr1s = reinterpret_cast<uintptr_t>(&index_arr_base[0]);
+  // uintptr_t addr1e = reinterpret_cast<uintptr_t>(&index_arr_base[g.num_nodes()-1]);
+  // uintptr_t addr2s = reinterpret_cast<uintptr_t>(&edge_arr_base[0]);
+  // uintptr_t addr2e = reinterpret_cast<uintptr_t>(g.get_end_addr_edge_arr());
+  // cout << "INDEX: " << addr1s << "," << addr1e << '\n';
+  // cout << "EDGE: "<< addr2s << "," << addr2e << '\n';
+  // SimUser(1, addr1s);
+  // SimUser(2, addr1e);
+  // SimUser(3, addr2s);
+  // SimUser(4, addr2e);
+  // SimRoiEnd();
 
   auto PRBound = [&cli] (const Graph &g) {
     return PageRankPullGS(g, cli.max_iters(), cli.tolerance());
