@@ -162,7 +162,7 @@ class CSRGraph {
       uint64_t addr1s = reinterpret_cast<uint64_t>(&out_index_[0]);
       uint64_t addr1e = reinterpret_cast<uint64_t>(&out_index_[num_nodes_]);
       uint64_t addr2s = reinterpret_cast<uint64_t>(&out_neighbors_[0]);
-      uint64_t addr2e = reinterpret_cast<uint64_t>(&out_neighbors_[num_edges_]);
+      uint64_t addr2e = reinterpret_cast<uint64_t>(&out_neighbors_[out_edge_arr_len]);
 
       std::cout << std::hex << "[APP] INDEX: " << addr1s << "," << addr1e << '\n';
       std::cout << std::hex << "[APP] EDGE: "<< addr2s << "," << addr2e << '\n';
@@ -196,7 +196,7 @@ class CSRGraph {
       uint64_t addr1s = reinterpret_cast<uint64_t>(&out_index_[0]);
       uint64_t addr1e = reinterpret_cast<uint64_t>(&out_index_[num_nodes_]);
       uint64_t addr2s = reinterpret_cast<uint64_t>(&out_neighbors_[0]);
-      uint64_t addr2e = reinterpret_cast<uint64_t>(&out_neighbors_[num_edges_]);
+      uint64_t addr2e = reinterpret_cast<uint64_t>(&out_neighbors_[out_edge_arr_len]);
 
       std::cout << std::hex << "[APP] INDEX: " << addr1s << "," << addr1e << '\n';
       std::cout << std::hex << "[APP] EDGE: "<< addr2s << "," << addr2e << '\n';
