@@ -145,6 +145,19 @@ class CSRGraph {
     directed_(false), num_nodes_(num_nodes),
     out_index_(index), out_neighbors_(neighs),
     in_index_(index), in_neighbors_(neighs) {
+
+      std::cout << "[CSR2]*************************** " << directed_ << '\n';
+
+      num_edges_ = (out_index_[num_nodes_] - out_index_[0]) / 2;
+      out_edge_arr_len = in_edge_arr_len = out_index_[num_nodes_] - out_index_[0];
+      std::cout << "[Graph] Undirected, " << "csr_edges, " << out_edge_arr_len << '\n';
+
+      int top50=10;
+      for(int i=0; out_edge_arr_len>100 && i< out_edge_arr_len && top50; i++, top50--)
+      {
+        std::cout << "Element: " << i << ", " << out_neighbors_[i] << "," << &out_neighbors_[i] << ", " << out_edge_arr_len-i << ", " << out_neighbors_[out_edge_arr_len-i] << ", " << &out_neighbors_[out_edge_arr_len-i] << '\n';
+      }
+
       num_edges_ = (out_index_[num_nodes_] - out_index_[0]) / 2;
       int len = in_index_[num_nodes-1] - in_index_[0];
       std::cout << len << '\n';
@@ -157,7 +170,19 @@ class CSRGraph {
     directed_(true), num_nodes_(num_nodes),
     out_index_(out_index), out_neighbors_(out_neighs),
     in_index_(in_index), in_neighbors_(in_neighs) {
-      num_edges_ = out_index_[num_nodes_] - out_index_[0];
+
+      std::cout << "[CSR2]*************************** " << directed_ << '\n';
+
+      num_edges_ = (out_index_[num_nodes_] - out_index_[0]);
+      out_edge_arr_len = in_edge_arr_len = out_index_[num_nodes_] - out_index_[0];
+      std::cout << "[Graph] Directed, " << "csr_edges, " << out_edge_arr_len << '\n';
+
+      int top50=10;
+      for(int i=0; out_edge_arr_len>100 && i< out_edge_arr_len && top50; i++, top50--)
+      {
+        std::cout << "Element: " << i << ", " << out_neighbors_[i] << "," << &out_neighbors_[i] << ", " << out_edge_arr_len-i << ", " << out_neighbors_[out_edge_arr_len-i] << ", " << &out_neighbors_[out_edge_arr_len-i] << '\n';
+      }
+
     }
 
   CSRGraph(CSRGraph&& other) : directed_(other.directed_),
