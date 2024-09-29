@@ -159,7 +159,7 @@ class CSRGraph {
         std::cout << "Element: " << i << ", " << out_neighbors_[i] << "," << &out_neighbors_[i] << ", " << out_edge_arr_len-i << ", " << out_neighbors_[out_edge_arr_len-i] << ", " << &out_neighbors_[out_edge_arr_len-i] << '\n';
       }
 
-      SimRoiStart();
+      // SimRoiStart();
 
       uint64_t addr1s = reinterpret_cast<uint64_t>(&out_index_[0]);
       uint64_t addr1e = reinterpret_cast<uint64_t>(&out_index_[num_nodes_]);
@@ -173,7 +173,7 @@ class CSRGraph {
       std::cout << std::hex << "[APP] EDGE, " << addr2s << "," << addr2e << '\n';
         SimUser(addr2s,addr2e,2);
       
-      SimRoiEnd();
+      // SimRoiEnd();
     }
 
   CSRGraph(int64_t num_nodes, DestID_** out_index, DestID_* out_neighs,
@@ -193,7 +193,7 @@ class CSRGraph {
         std::cout << "Element: " << i << ", " << out_neighbors_[i] << "," << &out_neighbors_[i] << ", " << out_edge_arr_len-i << ", " << out_neighbors_[out_edge_arr_len-i] << ", " << &out_neighbors_[out_edge_arr_len-i] << '\n';
       }
 
-      SimRoiStart();
+      // SimRoiStart();
 
       uint64_t addr1s = reinterpret_cast<uint64_t>(&out_index_[0]);
       uint64_t addr1e = reinterpret_cast<uint64_t>(&out_index_[num_nodes_]);
@@ -208,7 +208,7 @@ class CSRGraph {
         SimUser(addr2s,addr2e,2);
         SimUser(addr2s,addr2e,2);
       
-      SimRoiEnd();
+      // SimRoiEnd();
     }
 
   CSRGraph(CSRGraph&& other) : directed_(other.directed_),
